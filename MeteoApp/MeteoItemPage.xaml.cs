@@ -3,8 +3,8 @@
 [QueryProperty(nameof(Entry), "Entry")]
 public partial class MeteoItemPage : ContentPage
 {
-    Entry entry;
-    public Entry Entry
+    Location entry;
+    public Location Entry
     {
         get => entry;
         set
