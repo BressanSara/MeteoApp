@@ -70,9 +70,6 @@
 	  <None Remove="Plugin.LocalNotification" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Models\" />
-	</ItemGroup>
-	<ItemGroup>
 	  <BundleResource Include="Resources\.DS_Store" />
 	</ItemGroup>
 	<ItemGroup>

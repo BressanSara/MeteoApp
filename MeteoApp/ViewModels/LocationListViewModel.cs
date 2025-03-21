@@ -1,14 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using MeteoApp.Models;
-using Location = MeteoApp.Models.Location;
 
 namespace MeteoApp.ViewModels
 {
     class LocationListViewModel : BaseViewModel
     {
-        ObservableCollection<Location> _locations;
+        ObservableCollection<MeteoLocation> _locations;
 
-        public ObservableCollection<Location> Locations
+        public ObservableCollection<MeteoLocation> Locations
         {
             get { return _locations; }
             set
@@ -20,11 +19,11 @@ namespace MeteoApp.ViewModels
 
         public LocationListViewModel()
         {
-            Locations = new ObservableCollection<Location>();
+            Locations = new ObservableCollection<MeteoLocation>();
 
             for (var i = 0; i < 10; i++)
             {
-                var e = new Location
+                var e = new MeteoLocation
                 {
                     Id = i,
                     Name = $"Location {i}"

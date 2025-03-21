@@ -1,5 +1,5 @@
+using MeteoApp.Models;
 using MeteoApp.ViewModels;
-using Location = MeteoApp.Models.Location;
 
 namespace MeteoApp;
 
@@ -27,7 +27,7 @@ public partial class LocationListView : Shell
     {
         if (selectionChangedEventArgs.CurrentSelection.Count > 0)
         {
-            var location = selectionChangedEventArgs.CurrentSelection.FirstOrDefault() as Location;
+            var location = selectionChangedEventArgs.CurrentSelection.FirstOrDefault() as MeteoLocation;
             
             if(location == null)
                 throw new ArgumentNullException("Location is null");
@@ -53,7 +53,7 @@ public partial class LocationListView : Shell
 
     private void SwipeItem_Invoked(object sender, EventArgs e)
     {
-        var item = (sender as SwipeItem).BindingContext as Location;
+        var item = (sender as SwipeItem).BindingContext as MeteoLocation;
         (BindingContext as LocationListViewModel).Locations.Remove(item);
     }
 }

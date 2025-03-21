@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MeteoApp.Models
 {
-    class Location
+    class MeteoLocation
     {
         public int Id { get; set; }
         public string Name { get; set; }
