@@ -23,11 +23,14 @@ public partial class LocationListView : Shell
             Routing.RegisterRoute(item.Key, item.Value);
     }
 
-    private void OnCollectionViewSelectionChanged(object sender, SelectedItemChangedEventArgs e)
+    private void OnCollectionViewSelectionChanged(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
     {
-        if (e.SelectedItem != null)
+        if (selectionChangedEventArgs.CurrentSelection.Count > 0)
         {
-            Location location = e.SelectedItem as Location;
+            var location = selectionChangedEventArgs.CurrentSelection.FirstOrDefault() as Location;
+            
+            if(location == null)
+                throw new ArgumentNullException("Location is null");
 
             var navigationParameter = new Dictionary<string, object>
             {

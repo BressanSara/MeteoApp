@@ -12,7 +12,7 @@
             <StackLayout>
                 <Label Text="Locations" FontSize="Large" HorizontalOptions="Center" />
                 <CollectionView ItemsSource="{Binding Locations}" SelectionMode="Single"
-                            SelectionChanged="OnCollectionViewSelectionChanged" Margin="10">
+                            SelectionChanged="OnCollectionViewSelectionChanged" Margin="10">    
                     <CollectionView.ItemsLayout>
                         <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
                     </CollectionView.ItemsLayout>
