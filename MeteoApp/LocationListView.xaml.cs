@@ -17,27 +17,27 @@ public partial class LocationListView : Shell
 
     private void RegisterRoutes()
     {
-        Routes.Add("locationdetails", typeof(MeteoItemPage));
+        Routes.Add("locationdetails", typeof(LocationDetailsView));
 
         foreach (var item in Routes)
             Routing.RegisterRoute(item.Key, item.Value);
     }
 
-    private void OnCollectionViewSelectionChanged(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
+    private async void OnCollectionViewSelectionChanged(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
     {
         if (selectionChangedEventArgs.CurrentSelection.Count > 0)
         {
             var location = selectionChangedEventArgs.CurrentSelection.FirstOrDefault() as MeteoLocation;
-            
-            if(location == null)
+
+            if (location == null)
                 throw new ArgumentNullException("Location is null");
 
             var navigationParameter = new Dictionary<string, object>
-            {
-                { "Location", location }
-            };
+        {
+            { "MeteoLocation", location }
+        };
 
-            Shell.Current.GoToAsync($"locationdetails", navigationParameter);
+            await Shell.Current.GoToAsync($"locationdetails", navigationParameter);
         }
     }
 

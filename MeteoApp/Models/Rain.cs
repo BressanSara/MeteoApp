@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace MeteoApp.Models
 {
-    public class MeteoLocation
+    /***
+     * Informazioni sulla pioggia all'ora (mm/h)
+     */
+    public class Rain
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public Coord Coord { get; set; }
+        public double? OneHour { get; set; }
     }
 }

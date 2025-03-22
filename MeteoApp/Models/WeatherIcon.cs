@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace MeteoApp.Models
 {
-    public class MeteoLocation
+    public class WeatherIcon
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public Coord Coord { get; set; }
+        public Image Icon { get; set; }
     }
 }

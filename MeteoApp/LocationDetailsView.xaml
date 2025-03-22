@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:MeteoApp.ViewModels;assembly=MeteoApp"
+             x:Class="MeteoApp.LocationDetailsView"
+             x:DataType="local:LocationDetailsViewModel"
+             Title="{Binding MeteoLocation.Name}">
+    <ScrollView>
+        <StackLayout Padding="10" Spacing="20">
+            <Border Stroke="LightGray" StrokeShape="RoundRectangle 10">
+                <StackLayout Padding="10">
+                    <Image Source="{Binding IconUrl}" WidthRequest="200" HeightRequest="200" />
+                    <Label Text="Description:" FontSize="Medium" FontAttributes="Bold" />
+                    <Label Text="{Binding CurrentWeatherData.Weather[0].Description}" FontSize="Medium" />
+                </StackLayout>
+            </Border>
+            <Border Stroke="LightGray" StrokeShape="RoundRectangle 10">
+                <StackLayout Orientation="Horizontal" Spacing="10" Padding="10">
+                    <StackLayout>
+                        <Label Text="Temperature:" FontSize="Medium" FontAttributes="Bold" />
+                        <Label Text="{Binding CurrentWeatherData.Main.Temp}" FontSize="Medium" />
+                        <Label Text="Feels Like:" FontSize="Medium" FontAttributes="Bold" />
+                        <Label Text="{Binding CurrentWeatherData.Main.FeelsLike}" FontSize="Medium" />
+                        <Label Text="Humidity:" FontSize="Medium" FontAttributes="Bold" />
+                        <Label Text="{Binding CurrentWeatherData.Main.Humidity}" FontSize="Medium" />
+                    </StackLayout>
+                </StackLayout>
+            </Border>
+            <Border Stroke="LightGray" StrokeShape="RoundRectangle 10">
+                <StackLayout Padding="10">
+                    <Label Text="Wind Speed:" FontSize="Medium" FontAttributes="Bold" />
+                    <Label Text="{Binding CurrentWeatherData.Wind.Speed}" FontSize="Medium" />
+                    <Label Text="Wind Direction:" FontSize="Medium" FontAttributes="Bold" />
+                    <Label Text="{Binding CurrentWeatherData.Wind.Deg}" FontSize="Medium" />
+                </StackLayout>
+            </Border>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

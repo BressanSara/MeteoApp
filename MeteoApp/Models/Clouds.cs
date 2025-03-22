@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace MeteoApp.Models
 {
-    public class MeteoLocation
+    /***
+     * Copertura data dalle nuvole (nuvolosità)
+     */
+    public class Clouds
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public Coord Coord { get; set; }
+        public int All { get; set; }
     }
 }

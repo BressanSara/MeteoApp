@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace MeteoApp.Models
 {
-    public class MeteoLocation
+    public class Coord
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public Coord Coord { get; set; }
+        public double lon { get; set; }
+        public double lat { get; set; }
     }
 }
