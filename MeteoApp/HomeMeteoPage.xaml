@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MeteoApp.HomeMeteoPage">
+
+    <ContentPage.Content>
+        <Grid RowDefinitions="Auto,*,Auto,Auto" ColumnDefinitions="*">
+        
+               <Label Text="{Binding currentLocation}"
+                      Grid.Row="0"
+                      HorizontalOptions="Center"
+                      FontSize="36"/>
+               
+                <!-- Immagine centrale -->
+                <Image Source="global.png" 
+                       Aspect="AspectFit" 
+                       Grid.Row="1"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center" />
+        
+                <!-- Dati meteo -->
+                <StackLayout Grid.Row="2" Spacing="1">
+                    <Label Text="{Binding currentTemperature}"
+                           BackgroundColor="White"
+                           TextColor="Black"
+                           FontSize="20"
+                           Padding="10"/>
+                    <Label Text="{Binding currentWind}"
+                           BackgroundColor="White"
+                           TextColor="Black"
+                           FontSize="20"
+                           Padding="10"/>
+                </StackLayout>
+        
+               <!-- Bottoni in basso a destra -->
+               <AbsoluteLayout>
+                      <!-- Bottone per lista location -->
+                      <ImageButton Source="paw.png"
+                                   BackgroundColor="Transparent"
+                                   WidthRequest="60"
+                                   HeightRequest="60"
+                                   AbsoluteLayout.LayoutBounds="0.90,0.80,60,60"
+                                   AbsoluteLayout.LayoutFlags="PositionProportional"
+                                   Clicked="OnListClicked"/>
+
+                      <!-- Bottone per aggiungere location -->
+                      <ImageButton Source="paw.png"
+                                   BackgroundColor="Transparent"
+                                   WidthRequest="60"
+                                   HeightRequest="60"
+                                   AbsoluteLayout.LayoutBounds="0.75,0.90,60,60"
+                                   AbsoluteLayout.LayoutFlags="PositionProportional"
+                                   Clicked="OnAddClicked"/>
+               </AbsoluteLayout>
+            </Grid>
+    </ContentPage.Content>
+    
+</ContentPage>
