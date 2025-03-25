@@ -1,0 +1,43 @@
+using MeteoApp.Models;
+
+public class GPSOperations
+{
+    public async Task<MeteoLocation> GetCurrentLocationAsync()
+    {
+        MeteoLocation meteoLocation = new MeteoLocation();
+
+        
+        try
+        {
+            var locationRequest = new GeolocationRequest(GeolocationAccuracy.Best);
+            var location = await Geolocation.GetLocationAsync(locationRequest);
+
+            if (location != null)
+            {
+                // Traduci in placemark
+                var placemarks = await Geocoding.GetPlacemarksAsync(location);
+                var placemark = placemarks?.FirstOrDefault();
+
+                meteoLocation.Latitude = location.Latitude;
+                meteoLocation.Longitude = location.Longitude;
+
+                if (placemark != null)
+                {
+                    meteoLocation.Name = $"{placemark.Locality}, {placemark.CountryName}";
+                }
+                else
+                {
+                    meteoLocation.Name = $"{location.Latitude}, {location.Longitude}";
+                }
+
+                meteoLocation.Id = 0; // Prima posizione come identificativo
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error: " + ex.Message);
+        }
+
+        return meteoLocation;
+    }
+}

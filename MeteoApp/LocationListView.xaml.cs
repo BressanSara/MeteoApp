@@ -12,7 +12,10 @@ public partial class LocationListView : Shell
 		InitializeComponent();
         RegisterRoutes();
 
-        BindingContext = new LocationListViewModel();
+        var viewModel = new LocationListViewModel();
+        BindingContext = viewModel;
+        _ = Initialize(viewModel);
+
     }
 
     private void RegisterRoutes()
@@ -23,15 +26,24 @@ public partial class LocationListView : Shell
             Routing.RegisterRoute(item.Key, item.Value);
     }
 
-    private async void OnCollectionViewSelectionChanged(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
+    private async Task Initialize(LocationListViewModel viewModel)
+    {
+        await viewModel.InitializeLocationsAsync();
+    }
+
+    private void OnCollectionViewSelectionChanged(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
     {
         if (selectionChangedEventArgs.CurrentSelection.Count > 0)
         {
             var location = selectionChangedEventArgs.CurrentSelection.FirstOrDefault() as MeteoLocation;
 
             if (location == null)
+            {
                 throw new ArgumentNullException("Location is null");
+                Console.WriteLine("Location is null");
+            }
 
+            
             var navigationParameter = new Dictionary<string, object>
         {
             { "MeteoLocation", location }
