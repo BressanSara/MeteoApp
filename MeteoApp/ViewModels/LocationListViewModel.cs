@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using MeteoApp.Models;
 
@@ -20,6 +21,8 @@ namespace MeteoApp.ViewModels
 
         public LocationListViewModel()
         {
+            var currentLocation = new GPSOperations().GetCurrentLocationAsync();
+
             Locations = new ObservableCollection<MeteoLocation>
             {
                 new MeteoLocation
@@ -73,6 +76,8 @@ namespace MeteoApp.ViewModels
                     }
                 }
             };
+            Locations.Add(currentLocation.Result);
+            Locations.OrderBy(l => l.Id);
         }
     }
 }
