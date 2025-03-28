@@ -77,11 +77,11 @@
 	  <MauiAsset Include="Resources\Images\plus_solid.svg" />
 	</ItemGroup>
 	<ItemGroup>
-	  <MauiXaml Update="LocationListView.xaml">
+	  <MauiXaml Update="LocationDetailsView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Condition=" '$(EnableDefaultXamlItems)' == 'true' " Update="MeteoItemPage.xaml">
-	    <SubType>Designer</SubType>
+	  <MauiXaml Update="LocationListView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
   <ItemGroup>

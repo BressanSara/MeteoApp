@@ -13,5 +13,6 @@ namespace MeteoApp.Models
         
         public double Longitude { get; set; }
         public double Latitude { get; set; }
+        public Coord Coord { get; set; }
     }
 }
