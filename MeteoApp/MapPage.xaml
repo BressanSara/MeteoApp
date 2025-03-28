@@ -5,6 +5,11 @@
              xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
              x:Class="MeteoApp.MapPage">
     <ContentPage.Content>
-        <maps:Map x:Name="map" MapType="Street"/>
+        <maps:Map 
+            x:Name="map" 
+            MapType="Street"
+            IsShowingUser="True"
+            HeightRequest="250"
+            />
     </ContentPage.Content>
 </ContentPage>

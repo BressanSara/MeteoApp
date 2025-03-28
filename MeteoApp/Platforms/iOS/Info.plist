@@ -29,6 +29,9 @@
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/appicon.appiconset</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need your location in order to localize you</string>
+	<string>La tua posizione sarà usata per mostrare la mappa.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>La tua posizione sarà usata per mostrare la mappa.</string>
+
 </dict>
 </plist>
