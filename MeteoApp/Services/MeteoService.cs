@@ -1,21 +1,30 @@
 ﻿using MeteoApp.Models;
+using Microsoft.Extensions.Configuration;
 using System.Net.Http.Json;
 
 public class MeteoService
 {
     private readonly HttpClient _httpClient;
-    private readonly string API_KEY = "4668180ff7117459af24747cfb00db9a";
+    private string _apiKey;
 
     public MeteoService(HttpClient httpClient)
     {
         _httpClient = httpClient;
+
+        var builder = new ConfigurationBuilder()
+           .AddUserSecrets<MeteoService>();
+
+        var configuration = builder.Build();
+        _apiKey = configuration["OpenWeatherMapApiKey"];
+
     }
+
 
     public async Task<CurrentWeatherData> GetWeatherAsync(MeteoLocation location)
     {
         try
         {
-            var response = await _httpClient.GetAsync($"https://api.openweathermap.org/data/2.5/weather?lat={location.Coord.lat}&lon={location.Coord.lon}&appid={API_KEY}&units=metric");
+            var response = await _httpClient.GetAsync($"https://api.openweathermap.org/data/2.5/weather?lat={location.Coord.lat}&lon={location.Coord.lon}&appid={_apiKey}&units=metric");
 
             if (response.IsSuccessStatusCode)
             {
