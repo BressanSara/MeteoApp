@@ -16,17 +16,6 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
-   
-        var configuration = new ConfigurationBuilder()
-            .SetBasePath(FileSystem.AppDataDirectory) 
-            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-            .Build();
-
-        builder.Configuration.AddConfiguration(configuration);
-
-        builder.Services.AddSingleton<MeteoService>();
-
-
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
