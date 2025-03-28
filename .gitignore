@@ -398,3 +398,6 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/MeteoApp/Resources/API_KEYS.json
+/MeteoApp/Resources/appsettings.json
+/MeteoApp/MeteoApp-Maui.csproj
