@@ -4,7 +4,7 @@ using System.Net.Http.Json;
 public class MeteoService
 {
     private readonly HttpClient _httpClient;
-    private readonly string API_KEY = "";
+    private readonly string API_KEY = "ADD the OpenWeather API Key";
 
     public MeteoService(HttpClient httpClient)
     {
