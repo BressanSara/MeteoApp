@@ -2,6 +2,7 @@
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
+using AndroidX.Core.App;
 using Plugin.Firebase.CloudMessaging;
 
 namespace MeteoApp;
@@ -14,6 +15,29 @@ public class MainActivity : MauiAppCompatActivity
         base.OnCreate(savedInstanceState);
         HandleIntent(Intent);
         CreateNotificationChannelIfNeeded();
+        CheckAndRequestNotificationPermission();
+
+    }
+
+    public void CheckAndRequestNotificationPermission()
+    {
+        // Verifica se le notifiche sono abilitate
+        var notificationManager = NotificationManagerCompat.From(this);
+        if (!notificationManager.AreNotificationsEnabled())
+        {
+            // Mostra un messaggio o reindirizza l'utente alle impostazioni
+            Intent intent = new Intent(Android.Provider.Settings.ActionAppNotificationSettings);
+            intent.PutExtra(Android.Provider.Settings.ExtraAppPackage, PackageName);
+            StartActivity(intent);
+        }
+
+        if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.Tiramisu)
+        {
+            if (CheckSelfPermission(Android.Manifest.Permission.PostNotifications) != Android.Content.PM.Permission.Granted)
+            {
+                RequestPermissions(new[] { Android.Manifest.Permission.PostNotifications }, 0);
+            }
+        }
     }
 
     protected override void OnNewIntent(Intent intent)
