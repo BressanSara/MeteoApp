@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MeteoApp.Models;
 using MeteoApp.ViewModels;
 using Microsoft.Maui.Controls;
+using Map = Microsoft.Maui.Controls.Maps.Map;
 
 namespace MeteoApp;
 
@@ -60,6 +61,9 @@ public partial class LocationListView : Shell
 
     private void OnItemAdded(object sender, EventArgs e)
     {
+        Microsoft.Maui.Controls.Maps.Map map = new Map();
+        BindingContext = map;
+        
         _ = ShowPrompt();
     }
 
