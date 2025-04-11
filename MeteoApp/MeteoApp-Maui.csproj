@@ -15,7 +15,7 @@
 		<ApplicationTitle>MeteoApp</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.meteoapp</ApplicationId>
+		<ApplicationId>ch.supsi.meteoapp</ApplicationId>
 		<ApplicationIdGuid>4d548f4b-c83d-4fae-9d2c-9cf8027f3d25</ApplicationIdGuid>
 
 		<!-- Versions -->
