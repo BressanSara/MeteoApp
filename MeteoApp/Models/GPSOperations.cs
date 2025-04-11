@@ -9,7 +9,6 @@ public class GPSOperations
     public async Task<MeteoLocation> GetCurrentLocationAsync()
     {
         MeteoLocation meteoLocation = new MeteoLocation();
-
         
         try
         {
@@ -21,9 +20,12 @@ public class GPSOperations
                 // Traduci in placemark
                 var placemarks = await Geocoding.GetPlacemarksAsync(location);
                 var placemark = placemarks?.FirstOrDefault();
+                
+                var coord = new Coord();
+                coord.lat = location.Latitude;
+                coord.lon = location.Longitude;
 
-                meteoLocation.Latitude = location.Latitude;
-                meteoLocation.Longitude = location.Longitude;
+                meteoLocation.Coord = coord;
 
                 if (placemark != null)
                 {
