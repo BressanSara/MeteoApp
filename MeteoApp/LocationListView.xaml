@@ -12,10 +12,16 @@
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
 
-                <VerticalStackLayout Grid.Row="0" VerticalOptions="Center" Padding="20">
-                    <Image Source="location_icon.png" HeightRequest="100" HorizontalOptions="Center" />
-                    <Label Text="Your Locations" FontSize="24" HorizontalOptions="Center" />
-                    <Label Text="Manage your saved locations" FontSize="14" HorizontalOptions="Center" />
+                <VerticalStackLayout Grid.Row="0" VerticalOptions="Center">
+                    <Image Source="{Binding IconWeatherUrl}" HeightRequest="100" HorizontalOptions="Center"></Image>
+
+                    <Label Text="{Binding CurrentLocation.Name}" FontSize="24" HorizontalOptions="Center" />
+                    <Label Text="{Binding CurrentLocationWeatherData.Weather[0].Description}" FontSize="14" HorizontalOptions="Center" />
+                    <Label Text="{Binding CurrentLocationWeatherData.Main.Temp}" FontSize="18" HorizontalOptions="Center" />
+                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+                        <Label Text="{Binding CurrentLocationWeatherData.Main.TempMin}" FontSize="14" HorizontalOptions="Center" />
+                        <Label Text="{Binding CurrentLocationWeatherData.Main.TempMax}" FontSize="14" HorizontalOptions="Center" />
+                    </HorizontalStackLayout>
                 </VerticalStackLayout>
 
                 <CollectionView Grid.Row="1" ItemsSource="{Binding Locations}" SelectionMode="Single" SelectionChanged="OnCollectionViewSelectionChanged" Margin="10">
