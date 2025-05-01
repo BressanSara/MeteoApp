@@ -5,6 +5,7 @@ namespace MeteoApp.ViewModels
 {
     class LocationListViewModel : BaseViewModel
     {
+        private readonly LocationService _locationService;
         private ObservableCollection<MeteoLocation> _locations;
 
         public ObservableCollection<MeteoLocation> Locations
@@ -19,59 +20,36 @@ namespace MeteoApp.ViewModels
 
         public LocationListViewModel()
         {
-            Locations = new ObservableCollection<MeteoLocation>
+            _locationService = new LocationService();
+            Locations = new ObservableCollection<MeteoLocation>();
+        }
+
+        public async Task LoadLocationsAsync()
+        {
+            var locations = await _locationService.LoadLocationsAsync();
+            Locations.Clear();
+            foreach (var location in locations)
             {
-                new MeteoLocation
-                {
-                    Id = 1,
-                    Name = "New York, USA",
-                    Coord = new Coord
-                    {
-                        lat = 40.7128,
-                        lon = -74.0060
-                    }
-                },
-                new MeteoLocation
-                {
-                    Id = 2,
-                    Name = "Tokyo, Japan",
-                    Coord = new Coord
-                    {
-                        lat = 35.6895,
-                        lon = 139.6917
-                    }
-                },
-                new MeteoLocation
-                {
-                    Id = 3,
-                    Name = "Sydney, Australia",
-                    Coord = new Coord
-                    {
-                        lat = -33.8688,
-                        lon = 151.2093
-                    }
-                },
-                new MeteoLocation
-                {
-                    Id = 4,
-                    Name = "Cape Town, South Africa",
-                    Coord = new Coord
-                    {
-                        lat = -33.9249,
-                        lon = 18.4241
-                    }
-                },
-                new MeteoLocation
-                {
-                    Id = 5,
-                    Name = "Paris, France",
-                    Coord = new Coord
-                    {
-                        lat = 48.8566,
-                        lon = 2.3522
-                    }
-                }
-            };
+                Locations.Add(location);
+            }
+        }
+
+        public async Task AddLocationAsync(MeteoLocation location)
+        {
+            await _locationService.SaveLocationAsync(location);
+            Locations.Add(location);
+        }
+
+        public async Task RemoveLocationAsync(MeteoLocation location)
+        {
+            await _locationService.DeleteLocationAsync(location.Id.ToString());
+            Locations.Remove(location);
+        }
+
+        public async Task UpdateLocationAsync(MeteoLocation location)
+        {
+            await _locationService.UpdateLocationAsync(location.Id.ToString(), location);
+            // Aggiorna la lista se necessario
         }
     }
 }

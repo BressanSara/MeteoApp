@@ -56,8 +56,12 @@
 	<ItemGroup>
 	  <AndroidResource Remove="Platforms\Android\Resources\values\strings.xml" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Content Remove="Resources\raw\keys.json" />
+	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Appwrite" Version="0.12.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.3" />
 		<PackageReference Include="Microsoft.Maui.Controls.Maps" Version="10.0.0-preview.2.25165.1" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
