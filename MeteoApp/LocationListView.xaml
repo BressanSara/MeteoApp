@@ -1,40 +1,52 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MeteoApp.LocationListView"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       x:Class="MeteoApp.LocationListView"
              Title="LocationListView">
     <ContentPage>
-        <ContentPage.ToolbarItems>
-            <ToolbarItem Text="Add" Clicked="OnItemAdded" IconImageSource="plus_solid.png"/>
-        </ContentPage.ToolbarItems>
-
         <ContentPage.Content>
-            <StackLayout>
-                <Label Text="Locations" FontSize="Large" HorizontalOptions="Center" />
-                <CollectionView ItemsSource="{Binding Locations}" SelectionMode="Single"
-                            SelectionChanged="OnCollectionViewSelectionChanged" Margin="10">    
-                    <CollectionView.ItemsLayout>
-                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
-                    </CollectionView.ItemsLayout>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5*"/>
+                    <RowDefinition Height="4*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
 
+                <VerticalStackLayout Grid.Row="0" VerticalOptions="Center" Padding="20">
+                    <Image Source="location_icon.png" HeightRequest="100" HorizontalOptions="Center" />
+                    <Label Text="Your Locations" FontSize="24" HorizontalOptions="Center" />
+                    <Label Text="Manage your saved locations" FontSize="14" HorizontalOptions="Center" />
+                </VerticalStackLayout>
+
+                <CollectionView Grid.Row="1" ItemsSource="{Binding Locations}" SelectionMode="Single" SelectionChanged="OnCollectionViewSelectionChanged" Margin="10">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <SwipeView>
                                 <SwipeView.RightItems>
-                                    <!--Delete On right swipe-->
                                     <SwipeItems Mode="Reveal">
-                                        <SwipeItem Text="Delete" BackgroundColor="Red" 
-                                                   Invoked="SwipeItem_Invoked"/>
+                                        <SwipeItem Text="Delete" BackgroundColor="Red" Invoked="SwipeItem_Invoked" />
                                     </SwipeItems>
                                 </SwipeView.RightItems>
-                                <Border Padding="10" Margin="5">
-                                    <Label Text="{Binding Name}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
-                                </Border>
+                                <Grid Padding="10" ColumnDefinitions="*,Auto">
+                                    <Label Text="{Binding Name}" VerticalOptions="Center" FontSize="18" />
+                                    <Image Source="location_pin.png" Grid.Column="1" HeightRequest="24" WidthRequest="24" Margin="10,0" />
+                                </Grid>
                             </SwipeView>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-            </StackLayout>
+
+                <Border Grid.Row="2">
+                    <Border.Shadow>
+                        <Shadow Brush="Black" Offset="0, -2" Radius="2" Opacity="0.2" />
+                    </Border.Shadow>
+                    <Grid ColumnDefinitions="*,*,*" BackgroundColor="White" Margin="-4,0">
+                        <ImageButton Source="add.png" HeightRequest="48" Clicked="OnItemAdded" Grid.Column="0" />
+                        <ImageButton Source="bell.png" HeightRequest="48" Clicked="OpenNotificationSetting" Grid.Column="1" />
+                        <ImageButton Source="map.png" HeightRequest="48" Clicked="OnMapClicked" Grid.Column="2" />
+                    </Grid>
+                </Border>
+            </Grid>
         </ContentPage.Content>
     </ContentPage>
 </Shell>

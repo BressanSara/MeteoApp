@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 
 namespace MeteoApp.Services
 {
-    internal class NotificationService
+    public class NotificationService
     {
+        const string NOTIFICATION_SERVER = "https://notificationserver-production-7580.up.railway.app";
+
         private async Task<string> GetToken()
         {
             var token = string.Empty;
@@ -39,7 +41,7 @@ namespace MeteoApp.Services
                 return;
             }
 
-            var serverUrl = "http://localhost:3000/register";
+            var serverUrl = NOTIFICATION_SERVER + "/register";
 
             using var httpClient = new HttpClient();
 
@@ -68,6 +70,11 @@ namespace MeteoApp.Services
             {
                 Console.WriteLine($"Eccezione durante la registrazione del token: {ex.Message}");
             }
+        }
+
+        public static string getNotificationServerAddress()
+        {
+            return NOTIFICATION_SERVER;
         }
     }
 }

@@ -29,6 +29,7 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<ApiKeyProvider>();
         builder.Services.AddSingleton<MeteoService>();
+        builder.Services.AddMauiBlazorWebView();
 
 #if DEBUG
         builder.Logging.AddDebug();

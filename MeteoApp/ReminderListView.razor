@@ -1,0 +1,103 @@
+﻿@page "/reminderlist"
+@inject ReminderListViewModel ViewModel
+
+<h3>Reminders</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Location</th>
+            <th>Type</th>
+            <th>Temperature</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var reminder in ViewModel.Reminders)
+        {
+            <tr>
+                <td>@GetLocationName(reminder.lat, reminder.lon)</td>
+                <td>@(reminder.MinTemp != 0 ? "Min" : "Max")</td>
+                <td>@(reminder.MinTemp != 0 ? reminder.MinTemp : reminder.MaxTemp)°C</td>
+                <td>
+                    <button class="btn btn-primary" @onclick="() => EditReminder(reminder)">Edit</button>
+                    <button class="btn btn-danger" @onclick="() => DeleteReminder(reminder.Id)">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h4>@(IsEditing ? "Edit Reminder" : "Add Reminder")</h4>
+<EditForm Model="CurrentReminder" OnValidSubmit="SaveReminder">
+    <div>
+        <label>Location (Lat, Lon):</label>
+        <input type="number" @bind="CurrentReminder.Lat" step="0.0001" />
+        <input type="number" @bind="CurrentReminder.Lon" step="0.0001" />
+    </div>
+    <div>
+        <label>Min Temperature:</label>
+        <input type="number" @bind="CurrentReminder.MinTemp" />
+    </div>
+    <div>
+        <label>Max Temperature:</label>
+        <input type="number" @bind="CurrentReminder.MaxTemp" />
+    </div>
+    <button type="submit" class="btn btn-success">Save</button>
+    <button type="button" class="btn btn-secondary" @onclick="CancelEdit">Cancel</button>
+</EditForm>
+
+@code {
+    private Reminder CurrentReminder = new Reminder();
+    private bool IsEditing = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await ViewModel.LoadRemindersAsync();
+    }
+
+    private void EditReminder(Reminder reminder)
+    {
+        CurrentReminder = new Reminder
+        {
+            Id = reminder.Id,
+            Lat = reminder.Lat,
+            Lon = reminder.Lon,
+            MinTemp = reminder.MinTemp,
+            MaxTemp = reminder.MaxTemp
+        };
+        IsEditing = true;
+    }
+
+    private async Task DeleteReminder(string id)
+    {
+        await ViewModel.DeleteReminderAsync(id);
+    }
+
+    private async Task SaveReminder()
+    {
+        if (string.IsNullOrEmpty(CurrentReminder.Id))
+        {
+            CurrentReminder.Id = Guid.NewGuid().ToString();
+            await ViewModel.AddReminderAsync(CurrentReminder);
+        }
+        else
+        {
+            await ViewModel.UpdateReminderAsync(CurrentReminder);
+        }
+
+        CurrentReminder = new Reminder();
+        IsEditing = false;
+    }
+
+    private void CancelEdit()
+    {
+        CurrentReminder = new Reminder();
+        IsEditing = false;
+    }
+
+    private string GetLocationName(double lat, double lon)
+    {
+        ViewModel.GetLocationName(lat, lon, out string locationName);
+    }
+}

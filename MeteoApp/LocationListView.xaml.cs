@@ -34,9 +34,9 @@ public partial class LocationListView : Shell
                 throw new ArgumentNullException("Location is null");
 
             var navigationParameter = new Dictionary<string, object>
-        {
-            { "MeteoLocation", location }
-        };
+            {
+                { "MeteoLocation", location }
+            };
 
             await Shell.Current.GoToAsync($"locationdetails", navigationParameter);
         }
@@ -44,17 +44,37 @@ public partial class LocationListView : Shell
 
     private void OnItemAdded(object sender, EventArgs e)
     {
-        _ = ShowPrompt();
+        _ = ShowPrompt("Add new city");
+        //await Navigation.PushAsync(new ListPage());
     }
 
-    private async Task ShowPrompt()
+    private async void OnMapClicked(object sender, EventArgs e)
     {
-        await DisplayAlert("Add City", "To Be Implemented", "OK");
+        await Navigation.PushAsync(new MapPage());
     }
 
-    private void SwipeItem_Invoked(object sender, EventArgs e)
+    private async Task ShowPrompt(string message)
+    {
+        await DisplayAlert("To be implemented", message, "OK");
+    }
+
+    private async void OpenNotificationSetting(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new ReminderListBlazorPage());
+    }
+
+    private async void SwipeItem_Invoked(object sender, EventArgs e)
     {
         var item = (sender as SwipeItem).BindingContext as MeteoLocation;
-        (BindingContext as LocationListViewModel).Locations.Remove(item);
+
+        if (item == null)
+            return;
+
+        bool confirm = await DisplayAlert("Delete Location", $"Are you sure you want to delete {item.Name}?", "Yes", "No");
+
+        if (confirm)
+        {
+            (BindingContext as LocationListViewModel)?.Locations.Remove(item);
+        }
     }
 }
