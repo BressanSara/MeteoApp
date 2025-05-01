@@ -19,8 +19,22 @@ namespace MeteoApp.ViewModels
             {
                 _reminders = value;
                 OnPropertyChanged();
+                CurrentReminder = new Reminder();
             }
         }
+
+        private Reminder _currentReminder;
+        public Reminder CurrentReminder
+        {
+            get => _currentReminder;
+            set
+            {
+                _currentReminder = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsEditing { get; internal set; }
 
         public ReminderListViewModel()
         {
@@ -44,6 +58,14 @@ namespace MeteoApp.ViewModels
                     if (reminders != null)
                     {
                         Reminders = new ObservableCollection<Reminder>(reminders);
+
+                        foreach (var reminder in Reminders)
+                        {
+                            if (reminder.LocationName == null)
+                            {
+                                reminder.LocationName = await GetLocationNameAsync(reminder.Lat, reminder.Lon);
+                            }
+                        }
                     }
                 }
                 else
@@ -101,7 +123,7 @@ namespace MeteoApp.ViewModels
                 }
                 else
                 {
-                    Console.WriteLine($"Failed to delete reminder. Status code: {response.StatusCode}");
+                    Console.WriteLine($"Failed to delete reminder. {response.StatusCode} {response.Content} {response.ReasonPhrase}");
                 }
             }
             catch (Exception ex)

@@ -19,6 +19,7 @@ public partial class LocationListView : Shell
     private void RegisterRoutes()
     {
         Routes.Add("locationdetails", typeof(LocationDetailsView));
+        Routes.Add("ReminderList", typeof(ReminderListView));
 
         foreach (var item in Routes)
             Routing.RegisterRoute(item.Key, item.Value);
@@ -60,7 +61,7 @@ public partial class LocationListView : Shell
 
     private async void OpenNotificationSetting(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new ReminderListBlazorPage());
+        await Shell.Current.GoToAsync($"ReminderList");
     }
 
     private async void SwipeItem_Invoked(object sender, EventArgs e)

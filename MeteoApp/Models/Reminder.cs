@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace MeteoApp.Models
 {
@@ -13,15 +9,18 @@ namespace MeteoApp.Models
         public string Id { get; set; }
 
         [JsonPropertyName("lat")]
-        public Double Lat { get; set; }
+        public double Lat { get; set; }
 
         [JsonPropertyName("lon")]
-        public Double Lon { get; set; }
+        public double Lon { get; set; }
 
-        [JsonPropertyName("minTemp")]
-        public Double MinTemp { get; set; }
+        [JsonPropertyName("locationName")]
+        public string LocationName { get; set; }
 
-        [JsonPropertyName("maxTemp")]
-        public Double MaxTemp { get; set; }
+        [JsonPropertyName("threshold")]
+        public double Threshold { get; set; } // Soglia di temperatura
+
+        [JsonPropertyName("isMax")]
+        public bool IsMax { get; set; } // Indica se la soglia è massima o minima
     }
 }
