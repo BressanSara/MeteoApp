@@ -1,4 +1,6 @@
-﻿namespace MeteoApp;
+﻿using MeteoApp.Services;
+
+namespace MeteoApp;
 
 public partial class App : Application
 {

@@ -1,10 +1,10 @@
 ﻿using MeteoApp.Models;
+using System.Diagnostics;
 using System.Net.Http.Json;
 
 public class MeteoService
 {
     private readonly HttpClient _httpClient;
-    private readonly string API_KEY = "ADD the OpenWeather API Key";
 
     public MeteoService(HttpClient httpClient)
     {
@@ -15,6 +15,9 @@ public class MeteoService
     {
         try
         {
+            var apiKeyProvider = new ApiKeyProvider();
+            var API_KEY = await apiKeyProvider.GetOpenWeatherApiKeyAsync();
+
             var response = await _httpClient.GetAsync($"https://api.openweathermap.org/data/2.5/weather?lat={location.Coord.lat}&lon={location.Coord.lon}&appid={API_KEY}&units=metric");
 
             if (response.IsSuccessStatusCode)

@@ -57,17 +57,4 @@ public partial class LocationListView : Shell
         var item = (sender as SwipeItem).BindingContext as MeteoLocation;
         (BindingContext as LocationListViewModel).Locations.Remove(item);
     }
-
-    private async void GetToken(object sender, EventArgs e)
-    {
-#if ANDROID || IOS
-        await CrossFirebaseCloudMessaging.Current.CheckIfValidAsync();
-        var token = await CrossFirebaseCloudMessaging.Current.GetTokenAsync();
-        await Share.RequestAsync(new ShareTextRequest
-        {
-            Text = token,
-            Title = "Firebase Token"
-        });
-#endif
-    }
 }

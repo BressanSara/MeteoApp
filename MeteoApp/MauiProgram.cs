@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using MeteoApp.Services;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
 using Plugin.Firebase.CloudMessaging;
@@ -25,8 +26,17 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
+
+        builder.Services.AddSingleton<ApiKeyProvider>();
+        builder.Services.AddSingleton<MeteoService>();
+
 #if DEBUG
         builder.Logging.AddDebug();
+#endif
+
+#if IOS || ANDROID
+        var notificationService = new NotificationService();
+        Task.Run(async () => await notificationService.RegisterTokenAsync());
 #endif
         return builder.Build();
     }

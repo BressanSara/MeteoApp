@@ -6,7 +6,6 @@
     <ContentPage>
         <ContentPage.ToolbarItems>
             <ToolbarItem Text="Add" Clicked="OnItemAdded" IconImageSource="plus_solid.png"/>
-            <ToolbarItem Text="Get Token" Clicked="GetToken"/>
         </ContentPage.ToolbarItems>
 
         <ContentPage.Content>
