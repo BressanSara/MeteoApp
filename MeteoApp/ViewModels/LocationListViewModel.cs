@@ -6,6 +6,8 @@ namespace MeteoApp.ViewModels
 {
     class LocationListViewModel : BaseViewModel
     {
+        private Timer _weatherUpdateTimer;
+
         private ObservableCollection<MeteoLocation> _locations;
 
         public ObservableCollection<MeteoLocation> Locations
@@ -122,6 +124,44 @@ namespace MeteoApp.ViewModels
             };
 
             _ = LoadWeatherDataAsync();
+
+            StartWeatherUpdateTimer();
+        }
+
+        private void StartWeatherUpdateTimer()
+        {
+            if (_weatherUpdateTimer != null)
+            {
+                _weatherUpdateTimer.Dispose();
+            }
+            _weatherUpdateTimer = new Timer(
+                async _ => await ReloadWeatherDataAsync(), 
+                null, 
+                TimeSpan.Zero, 
+                TimeSpan.FromMinutes(5)
+             );
+        }
+
+        public void StopWeatherUpdateTimer()
+        {
+            if (_weatherUpdateTimer != null)
+            {
+                _weatherUpdateTimer.Dispose();
+                _weatherUpdateTimer = null;
+            }
+        }
+
+
+        private async Task ReloadWeatherDataAsync()
+        {
+            try
+            {
+                await LoadWeatherDataAsync();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Errore durante il reload dei dati meteo: {ex.Message}");
+            }
         }
 
         private async Task LoadWeatherDataAsync()
