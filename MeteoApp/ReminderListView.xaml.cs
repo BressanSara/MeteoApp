@@ -1,4 +1,3 @@
-using Android.App;
 using MeteoApp.Models;
 using MeteoApp.ViewModels;
 
