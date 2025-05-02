@@ -15,7 +15,15 @@ namespace MeteoApp.Services
         private async Task<string> GetToken()
         {
             var token = string.Empty;
-#if ANDROID || IOS
+
+#if ANDROID 
+            // Ask to enable Notifications
+            PermissionStatus status = await Permissions.CheckStatusAsync<Permissions.PostNotifications>();
+            if (status != PermissionStatus.Granted)
+            {
+                status = await Permissions.RequestAsync<Permissions.PostNotifications>();
+            }
+
             await CrossFirebaseCloudMessaging.Current.CheckIfValidAsync();
             token = await CrossFirebaseCloudMessaging.Current.GetTokenAsync();
 

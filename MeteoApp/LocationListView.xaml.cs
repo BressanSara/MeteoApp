@@ -63,7 +63,11 @@ public partial class LocationListView : Shell
 
     private async void OpenNotificationSetting(object sender, EventArgs e)
     {
+#if IOS
+        await DisplayAlert("Not implemented", "Functionality not enabled in IOS", "OK");
+#elif ANDROID
         await Shell.Current.GoToAsync($"ReminderList");
+#endif
     }
 
     private async void SwipeItem_Invoked(object sender, EventArgs e)

@@ -4,9 +4,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
 using Plugin.Firebase.CloudMessaging;
 
-#if IOS
-using Plugin.Firebase.Core.Platforms.iOS;
-#elif ANDROID
+#if ANDROID
 using Plugin.Firebase.Core.Platforms.Android;
 #endif
 
@@ -35,7 +33,7 @@ public static class MauiProgram
         builder.Logging.AddDebug();
 #endif
 
-#if IOS || ANDROID
+#if ANDROID
         var notificationService = new NotificationService();
         Task.Run(async () => await notificationService.RegisterTokenAsync());
 #endif
@@ -45,13 +43,8 @@ public static class MauiProgram
     private static MauiAppBuilder RegisterFirebaseServices(this MauiAppBuilder builder)
     {
         builder.ConfigureLifecycleEvents(events => {
-#if IOS
-        events.AddiOS(iOS => iOS.WillFinishLaunching((_, __) => {
-            CrossFirebase.Initialize();
-            FirebaseCloudMessagingImplementation.Initialize();
-            return false;
-        }));
-#elif ANDROID
+
+#if ANDROID
         events.AddAndroid(android => android.OnCreate((activity, _) =>
         CrossFirebase.Initialize(activity)));
 #endif
