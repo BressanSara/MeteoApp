@@ -1,3 +1,4 @@
+using Android.App;
 using MeteoApp.Models;
 using MeteoApp.ViewModels;
 
@@ -26,6 +27,10 @@ public partial class ReminderListView : ContentPage
                 Threshold = reminder.Threshold,
                 IsMax = reminder.IsMax
             };
+
+            ViewModel.CurrentLocation = ViewModel.Locations
+                .FirstOrDefault(location => location.Name.Equals(reminder.LocationName));
+
             ViewModel.IsEditing = true;
         }
     }
@@ -49,21 +54,16 @@ public partial class ReminderListView : ContentPage
             return;
         }
 
-        if (string.IsNullOrEmpty(ViewModel.CurrentReminder.LocationName))
+        if (ViewModel.CurrentLocation == null)
         {
-            try
-            {
-                ViewModel.CurrentReminder.LocationName = await ViewModel.GetLocationNameAsync(
-                    ViewModel.CurrentReminder.Lat,
-                    ViewModel.CurrentReminder.Lon
-                );
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Error", $"Failed to get location name: {ex.Message}", "OK");
-                return;
-            }
+            await DisplayAlert("Error", "Location is not selected.", "OK");
+            return;
         }
+
+        ViewModel.CurrentReminder.Lat = ViewModel.CurrentLocation.Coord.lon;
+        ViewModel.CurrentReminder.Lon = ViewModel.CurrentLocation.Coord.lat;
+
+        ViewModel.CurrentReminder.LocationName = ViewModel.CurrentLocation.Name;
 
         try
         {

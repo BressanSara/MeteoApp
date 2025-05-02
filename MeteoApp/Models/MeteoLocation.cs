@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Java.Lang;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,5 +15,11 @@ namespace MeteoApp.Models
         public double Longitude { get; set; }
         public double Latitude { get; set; }
         public Coord Coord { get; set; }
+
+        override
+        public string ToString()
+        {
+            return $"Name: {Name} ({Latitude}, {Longitude}), Coords: ({Coord.lat}, {Coord.lon})";
+        }
     }
 }

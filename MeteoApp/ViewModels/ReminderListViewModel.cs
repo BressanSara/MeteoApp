@@ -23,6 +23,18 @@ namespace MeteoApp.ViewModels
             }
         }
 
+        private ObservableCollection<MeteoLocation> _locations;
+
+        public ObservableCollection<MeteoLocation> Locations 
+        { 
+            get { return _locations; } 
+            set
+            {
+                _locations = value;
+                OnPropertyChanged();
+            }
+        }
+
         private Reminder _currentReminder;
         public Reminder CurrentReminder
         {
@@ -34,13 +46,38 @@ namespace MeteoApp.ViewModels
             }
         }
 
+        private MeteoLocation _currentLocation;
+
+        public MeteoLocation CurrentLocation
+        {
+            get { return _currentLocation; }
+            set
+            {
+                _currentLocation = value;
+                OnPropertyChanged();
+                if (_currentLocation != null)
+                {
+                    CurrentReminder.Lat = _currentLocation.Latitude;
+                    CurrentReminder.Lon = _currentLocation.Longitude;
+                    CurrentReminder.LocationName = _currentLocation.Name;
+                }
+            }
+        }
+
         public bool IsEditing { get; internal set; }
 
         public ReminderListViewModel()
         {
             _httpClient = new HttpClient();
             Reminders = new ObservableCollection<Reminder>();
-            _ = LoadRemindersAsync(); 
+            _ = LoadRemindersAsync();
+            _ = LoadLocationsAsync();
+        }
+
+        private async Task LoadLocationsAsync()
+        {
+            LocationListViewModel viewModel = new LocationListViewModel();
+            Locations = viewModel.Locations;
         }
 
         private async Task LoadRemindersAsync()

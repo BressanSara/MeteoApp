@@ -57,17 +57,20 @@
             <Frame BorderColor="LightGray" CornerRadius="10" Padding="10" BackgroundColor="White">
                 <StackLayout Spacing="10">
                     <HorizontalStackLayout>
-                        <Label Text="Location (Lat, Lon):" VerticalTextAlignment="Center" />
-                        <Entry Text="{Binding CurrentReminder.Lat, Mode=TwoWay}" Keyboard="Numeric" Placeholder="Latitude" />
-                        <Entry Text="{Binding CurrentReminder.Lon, Mode=TwoWay}" Keyboard="Numeric" Placeholder="Longitude" />
+                        <Picker x:Name="LocationPicker"
+                            Title="Select Location"
+                            ItemsSource="{Binding Locations}"
+                            ItemDisplayBinding="{Binding Name}"
+                            SelectedItem="{Binding CurrentLocation, Mode=TwoWay}" />       
+
                     </HorizontalStackLayout>
                     <HorizontalStackLayout>
                         <Label Text="Threshold:" VerticalTextAlignment="Center" />
                         <Entry Text="{Binding CurrentReminder.Threshold, Mode=TwoWay}" Keyboard="Numeric" Placeholder="Temperature Threshold" />
                     </HorizontalStackLayout>
                     <HorizontalStackLayout>
-                        <Label Text="Type (Max/Min):" VerticalTextAlignment="Center" />
-                        <Switch IsToggled="{Binding CurrentReminder.IsMax, Mode=TwoWay}" />
+                        <Label Text="Type (Min/Max):" VerticalTextAlignment="Center" />
+                        <Switch IsToggled="{Binding CurrentReminder.IsMax, Mode=TwoWay}"/>
                     </HorizontalStackLayout>
                     <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
                         <Button Text="Save" Clicked="OnSaveReminder" BackgroundColor="Green" TextColor="White" CornerRadius="5" />

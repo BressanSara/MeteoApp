@@ -34,7 +34,6 @@ namespace MeteoApp.ViewModels
             }
         }
 
-
         private CurrentWeatherData _currentLocationWeatherData;
 
         public CurrentWeatherData CurrentLocationWeatherData
