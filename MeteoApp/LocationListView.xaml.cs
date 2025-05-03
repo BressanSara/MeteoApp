@@ -3,6 +3,8 @@ using MeteoApp.ViewModels;
 using Plugin.Firebase.CloudMessaging;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace MeteoApp;
 
@@ -45,15 +47,14 @@ public partial class LocationListView : Shell
         }
     }
 
-    private void OnItemAdded(object sender, EventArgs e)
-    {
-        _ = ShowPrompt("Add new city");
-        //await Navigation.PushAsync(new ListPage());
-    }
-
     private async void OnMapClicked(object sender, EventArgs e)
     {
         await Navigation.PushAsync(new MapPage());
+    }
+
+    private async void OnAddLocation(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("///add-location");
     }
 
     private async Task ShowPrompt(string message)

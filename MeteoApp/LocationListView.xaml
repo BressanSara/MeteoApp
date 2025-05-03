@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:razor="using:MeteoApp"
        x:Class="MeteoApp.LocationListView"
              Title="LocationListView">
     <ContentPage>
@@ -47,7 +48,7 @@
                         <Shadow Brush="Black" Offset="0, -2" Radius="2" Opacity="0.2" />
                     </Border.Shadow>
                     <Grid ColumnDefinitions="*,*,*" BackgroundColor="White" Margin="-4,0">
-                        <ImageButton Source="add.png" HeightRequest="48" Clicked="OnItemAdded" Grid.Column="0" />
+                        <ImageButton Source="add.png" HeightRequest="48" Clicked="OnAddLocation" Grid.Column="0" />
                         <ImageButton Source="bell.png" HeightRequest="48" Clicked="OpenNotificationSetting" Grid.Column="1" />
                         <ImageButton Source="map.png" HeightRequest="48" Clicked="OnMapClicked" Grid.Column="2" />
                     </Grid>
@@ -55,4 +56,10 @@
             </Grid>
         </ContentPage.Content>
     </ContentPage>
+
+    <ShellContent
+        Title="Add Location"
+        Route="add-location"
+        ContentTemplate="{DataTemplate razor:AddLocationBlazorPage}" />
+
 </Shell>

@@ -1,4 +1,5 @@
 ﻿using MeteoApp.Services;
+using MeteoApp.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
@@ -27,15 +28,21 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<ApiKeyProvider>();
         builder.Services.AddSingleton<MeteoService>();
+        builder.Services.AddSingleton<LocationListViewModel>();
+        builder.Services.AddSingleton<GeoCodingService>();
+
         builder.Services.AddMauiBlazorWebView();
+
+#if DEBUG
+        builder.Services.AddBlazorWebViewDeveloperTools();
+#endif
+
 
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
 
 #if ANDROID
-        var notificationService = new NotificationService();
-        Task.Run(async () => await notificationService.RegisterTokenAsync());
 #endif
         return builder.Build();
     }
@@ -49,6 +56,9 @@ public static class MauiProgram
         CrossFirebase.Initialize(activity)));
 #endif
         });
+
+        var notificationService = new NotificationService();
+        Task.Run(async () => await notificationService.RegisterTokenAsync());
 
         return builder;
     }

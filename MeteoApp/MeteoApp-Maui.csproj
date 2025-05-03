@@ -60,15 +60,25 @@
 	  <Content Remove="Resources\raw\keys.json" />
 	</ItemGroup>
 
-	<ItemGroup>
+  <ItemGroup>
+    <RazorComponent Include="AddLocation.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\**" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+
+  <ItemGroup>
 		<PackageReference Include="Appwrite" Version="0.12.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.3" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.4" />
 		<PackageReference Include="Microsoft.Maui.Controls.Maps" Version="10.0.0-preview.2.25165.1" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="Plugin.Firebase.CloudMessaging" Version="3.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="9.0.60" />
 	</ItemGroup>
-
-	<ItemGroup>
+  
+  <ItemGroup>
 	  <None Remove="Models\" />
 	  <None Remove="sqlite-net-pcl" />
 	  <None Remove="Xam.Plugin.Geolocator" />
@@ -83,6 +93,9 @@
 	  <MauiAsset Include="Resources\Images\plus_solid.svg" />
 	</ItemGroup>
 	<ItemGroup>
+	  <MauiXaml Update="AddLocationBlazorPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="LocationDetailsView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -99,10 +112,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Update="Microsoft.Maui.Controls" Version="9.0.50" />
+    <PackageReference Update="Microsoft.Maui.Controls" Version="9.0.60" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net9.0-android'">
-    <GoogleServicesJson Include="google-services.json" />
+    <ServicesJson Include="Platforms\Android\google-services.json" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net9.0-ios'">
     <BundleResource Include="GoogleService-Info.plist" />
