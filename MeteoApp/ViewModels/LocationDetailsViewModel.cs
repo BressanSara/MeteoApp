@@ -30,7 +30,8 @@ namespace MeteoApp.ViewModels
                 OnPropertyChanged();
                 if (_currentWeatherData?.Weather != null && _currentWeatherData.Weather.Count > 0)
                 {
-                    IconString = _currentWeatherData.Weather[0].Icon;
+                    //IconString = _currentWeatherData.Weather[0].Icon;
+                    IconString = _currentWeatherData.Weather[0].Main.ToLower() + ".png";
                 }
             }
         }
@@ -42,11 +43,11 @@ namespace MeteoApp.ViewModels
             {
                 _iconString = value;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(IconUrl));
+                //OnPropertyChanged(nameof(IconUrl));
             }
         }
 
-        public string IconUrl => $"https://openweathermap.org/img/wn/{IconString}@2x.png";
+        //public string IconUrl => $"https://openweathermap.org/img/wn/{IconString}@2x.png";
 
         public event PropertyChangedEventHandler PropertyChanged;
 

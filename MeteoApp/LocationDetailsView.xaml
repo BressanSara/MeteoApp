@@ -9,7 +9,8 @@
         <StackLayout Padding="10" Spacing="20">
             <Border Stroke="LightGray" StrokeShape="RoundRectangle 10">
                 <StackLayout Padding="10">
-                    <Image Source="{Binding IconUrl}" WidthRequest="200" HeightRequest="200" />
+                    <!--<Image Source="{Binding IconUrl}" WidthRequest="200" HeightRequest="200" />-->
+                    <Image Source="{Binding IconString}" WidthRequest="200" HeightRequest="200" />
                     <Label Text="Description:" FontSize="Medium" FontAttributes="Bold" />
                     <Label Text="{Binding CurrentWeatherData.Weather[0].Description}" FontSize="Medium" />
                 </StackLayout>
