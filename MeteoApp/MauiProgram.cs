@@ -1,7 +1,10 @@
 ﻿using MeteoApp.Services;
 using MeteoApp.ViewModels;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Maui.Controls.Hosting;
+using Microsoft.Maui.Hosting;
 using Microsoft.Maui.LifecycleEvents;
 using Plugin.Firebase.CloudMessaging;
 
@@ -19,6 +22,7 @@ public static class MauiProgram
         builder
             .UseMauiApp<App>()
             .RegisterFirebaseServices()
+            .UseMauiMaps()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
