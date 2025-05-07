@@ -80,4 +80,17 @@ public partial class LocationDetailsView : ContentPage
             }
         }
     }
+
+    private async void OnAddLocationClicked(object sender, EventArgs e)
+    {
+        try
+        {
+            await viewModel.AddLocationAsync();
+            await DisplayAlert("Success", "Location added successfully!", "OK");
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", "Failed to add location: " + ex.Message, "OK");
+        }
+    }
 }

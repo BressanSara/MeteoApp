@@ -198,4 +198,18 @@
             </Border>
         </StackLayout>
     </ScrollView>
+    
+    <!-- Floating Action Button -->
+    <ImageButton x:Name="AddLocationButton"
+                 Source="add.png"
+                 Clicked="OnAddLocationClicked"
+                 IsVisible="{Binding CanAddLocation}"
+                 HeightRequest="56"
+                 WidthRequest="56"
+                 CornerRadius="28"
+                 BackgroundColor="#4CAF50"
+                 Padding="12"
+                 HorizontalOptions="End"
+                 VerticalOptions="Start"
+                 Margin="0,20,20,0"/>
 </ContentPage>

@@ -116,14 +116,30 @@ namespace MeteoApp.ViewModels
 
         public async Task ReloadWeatherDataAsync()
         {
-            await AppWriteService.InitializeAsync();
             try
             {
-                await LoadWeatherDataAsync();
+                // Ricarica la lista delle località
+                var locationsViewModel = new LocationsViewModel();
+                Locations = await locationsViewModel.LoadLocationsAsync();
+
+                // Aggiorna i dati meteo per ogni località
+                var meteoService = new MeteoService(new HttpClient());
+                foreach (var location in Locations)
+                {
+                    var weatherData = await meteoService.GetWeatherAsync(location);
+                    if (weatherData != null)
+                    {
+                        // Aggiorna i dati meteo per la località
+                        location.WeatherData = weatherData;
+                    }
+                }
+
+                OnPropertyChanged(nameof(Locations));
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Errore durante il reload dei dati meteo: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Error reloading weather data: {ex.Message}");
+                throw;
             }
         }
 

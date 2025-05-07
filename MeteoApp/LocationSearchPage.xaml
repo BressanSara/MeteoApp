@@ -32,7 +32,6 @@
             
             <CollectionView x:Name="SearchResultsList"
                            SelectionMode="Single"
-                           SelectionChanged="OnLocationSelected"
                            EmptyView="Start typing to search locations..."
                            Margin="0,10">
                 <CollectionView.EmptyView>

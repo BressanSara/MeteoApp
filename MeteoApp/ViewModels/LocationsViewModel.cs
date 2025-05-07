@@ -24,14 +24,14 @@ public class LocationsViewModel
 
         foreach (var doc in appwriteResponse.Documents)
         {
-            var latitude = Convert.ToDouble(doc.Data["Latitude"]);
-            var longitude = Convert.ToDouble(doc.Data["Longitude"]);
+            var latitude = Convert.ToDouble(doc.Data["latitude"]);
+            var longitude = Convert.ToDouble(doc.Data["longitude"]);
                 
             locations.Add(new MeteoLocation
             {
                 Id = doc.Id,
-                Name = doc.Data["Name"].ToString(),
-                Country = doc.Data["Country"].ToString(),
+                Name = doc.Data["name"].ToString(),
+                Country = doc.Data["country"].ToString(),
                 Latitude = latitude,
                 Longitude = longitude,
                 Coord = new Coord{lat = latitude, lon = longitude}
@@ -46,10 +46,10 @@ public class LocationsViewModel
     {   
         var data = new Dictionary<string, object>
         {
-            { "Name", location.Name },
-            { "Country", location.Country },
-            { "Latitude", location.Latitude },
-            { "Longitude", location.Longitude }
+            { "name", location.Name },
+            { "country", location.Country },
+            { "latitude", location.Latitude },
+            { "longitude", location.Longitude }
         };
 
         try

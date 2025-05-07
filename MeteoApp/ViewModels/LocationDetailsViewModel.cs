@@ -14,6 +14,26 @@ namespace MeteoApp.ViewModels
         private CurrentWeatherData _currentWeatherData;
         private string _iconString;
         private ObservableCollection<ForecastItem> _forecastItems;
+        private bool _canAddLocation;
+        private readonly LocationsViewModel _locationsViewModel;
+        private readonly HomePageViewModel _homePageViewModel;
+
+        public LocationDetailsViewModel()
+        {
+            _locationsViewModel = new LocationsViewModel();
+            _homePageViewModel = new HomePageViewModel();
+            _canAddLocation = false; 
+        }
+
+        public bool CanAddLocation
+        {
+            get => _canAddLocation;
+            set
+            {
+                _canAddLocation = value;
+                OnPropertyChanged();
+            }
+        }
 
         public MeteoLocation MeteoLocation
         {
@@ -22,6 +42,14 @@ namespace MeteoApp.ViewModels
             {
                 _meteoLocation = value;
                 OnPropertyChanged();
+                if (_meteoLocation != null)
+                {
+                    _ = CheckIfLocationExists();
+                }
+                else
+                {
+                    CanAddLocation = false;
+                }
             }
         }
 
@@ -64,6 +92,46 @@ namespace MeteoApp.ViewModels
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private async Task CheckIfLocationExists()
+        {
+            if (_meteoLocation == null) return;
+
+            try
+            {
+                var locations = await _locationsViewModel.LoadLocationsAsync();
+                var locationExists = locations.Any(l => 
+                    Math.Abs(l.Latitude - _meteoLocation.Latitude) < 0.0001 && 
+                    Math.Abs(l.Longitude - _meteoLocation.Longitude) < 0.0001);
+                
+                CanAddLocation = !locationExists;
+                System.Diagnostics.Debug.WriteLine($"Location exists: {locationExists}, CanAddLocation: {CanAddLocation}");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error checking if location exists: {ex.Message}");
+                CanAddLocation = false; // In case of error, don't show the button
+            }
+        }
+
+        public async Task AddLocationAsync()
+        {
+            if (_meteoLocation == null) return;
+
+            try
+            {
+                await _locationsViewModel.AddLocationAsync(_meteoLocation);
+                CanAddLocation = false;
+                
+                // Aggiorna la lista nella MainPageView
+                await _homePageViewModel.ReloadWeatherDataAsync();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error adding location: {ex.Message}");
+                throw;
+            }
         }
 
         public async Task LoadForecastDataAsync(MeteoService meteoService)
