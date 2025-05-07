@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using MeteoApp.Models;
 using MeteoApp.Services;
 using Microsoft.Maui.Controls;
-
+using System.Linq;
 
 namespace MeteoApp.ViewModels
 {
@@ -84,8 +84,22 @@ namespace MeteoApp.ViewModels
 
         public string IconWeatherUrl => $"https://openweathermap.org/img/wn/{IconWeather}@2x.png";
 
+        private bool _canAddCurrentLocation;
+        private readonly LocationsViewModel _locationsViewModel;
+
+        public bool CanAddCurrentLocation
+        {
+            get => _canAddCurrentLocation;
+            set
+            {
+                _canAddCurrentLocation = value;
+                OnPropertyChanged();
+            }
+        }
+
         public HomePageViewModel()
         {
+            _locationsViewModel = new LocationsViewModel();
             _ = LoadLocationsAsync();
             _ = LoadWeatherDataAsync();
             StartWeatherUpdateTimer();
@@ -170,6 +184,7 @@ namespace MeteoApp.ViewModels
                 if (CurrentLocation != null)
                 {
                     CurrentLocationWeatherData = await meteoService.GetWeatherAsync(CurrentLocation);
+                    await CheckIfCurrentLocationExists();
 
                     if (CurrentLocationWeatherData == null)
                     {
@@ -189,6 +204,44 @@ namespace MeteoApp.ViewModels
             {
                 OnPropertyChanged(nameof(CurrentLocation));
                 OnPropertyChanged(nameof(CurrentLocationWeatherData));
+            }
+        }
+
+        private async Task CheckIfCurrentLocationExists()
+        {
+            if (CurrentLocation == null) return;
+
+            try
+            {
+                var locations = await _locationsViewModel.LoadLocationsAsync();
+                var locationExists = locations.Any(l => 
+                    Math.Abs(l.Latitude - CurrentLocation.Latitude) < 0.0001 && 
+                    Math.Abs(l.Longitude - CurrentLocation.Longitude) < 0.0001);
+                
+                CanAddCurrentLocation = !locationExists;
+                System.Diagnostics.Debug.WriteLine($"Current location exists: {locationExists}, CanAddCurrentLocation: {CanAddCurrentLocation}");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error checking if current location exists: {ex.Message}");
+                CanAddCurrentLocation = false;
+            }
+        }
+
+        public async Task AddCurrentLocationAsync()
+        {
+            if (CurrentLocation == null) return;
+
+            try
+            {
+                await _locationsViewModel.AddLocationAsync(CurrentLocation);
+                CanAddCurrentLocation = false;
+                await ReloadWeatherDataAsync();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error adding current location: {ex.Message}");
+                throw;
             }
         }
     }

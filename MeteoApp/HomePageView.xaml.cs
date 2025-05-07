@@ -108,4 +108,20 @@ public partial class HomePageView : Shell
             await viewModel.ReloadWeatherDataAsync();
         }
     }
+
+    private async void OnAddCurrentLocationClicked(object sender, EventArgs e)
+    {
+        try
+        {
+            if (BindingContext is HomePageViewModel viewModel)
+            {
+                await viewModel.AddCurrentLocationAsync();
+                await DisplayAlert("Success", "Current location added successfully!", "OK");
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", "Failed to add current location: " + ex.Message, "OK");
+        }
+    }
 }
