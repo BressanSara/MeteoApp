@@ -1,0 +1,213 @@
+@page "/about"
+@using MeteoApp.Services
+@inject AppInfoService AppInfo
+
+<div class="about-container">
+    <div class="header">
+        <img src="clear.png" alt="Weather Icon" class="app-icon" />
+        <h1>About MeteoApp</h1>
+    </div>
+    
+    <div class="info-section">
+        <div class="section-header">
+            <div class="section-icon">ℹ️</div>
+            <h2>Application Information</h2>
+        </div>
+        <div class="info-content">
+            <div class="info-item">
+                <span class="label">Version:</span>
+                <span class="value">@AppInfo.Version</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Build:</span>
+                <span class="value">@AppInfo.BuildNumber</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Name:</span>
+                <span class="value">@AppInfo.AppName</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Last Build:</span>
+                <span class="value">@AppInfo.LastBuildDate</span>
+            </div>
+            <p class="description">A weather application that helps you track weather conditions for multiple locations.</p>
+        </div>
+    </div>
+
+    <div class="info-section">
+        <div class="section-header">
+            <div class="section-icon">👥</div>
+            <h2>Authors</h2>
+        </div>
+        <div class="info-content">
+            <p>Developed by the MeteoApp Team</p>
+        </div>
+    </div>
+
+    <div class="info-section">
+        <div class="section-header">
+            <div class="section-icon">⭐</div>
+            <h2>Features</h2>
+        </div>
+        <div class="info-content">
+            <ul class="features-list">
+                <li>
+                    <div class="feature-icon">🔄</div>
+                    <span>Real-time weather updates</span>
+                </li>
+                <li>
+                    <div class="feature-icon">📍</div>
+                    <span>Multiple location tracking</span>
+                </li>
+                <li>
+                    <div class="feature-icon">🔔</div>
+                    <span>Weather notifications</span>
+                </li>
+                <li>
+                    <div class="feature-icon">🗺️</div>
+                    <span>Interactive map view</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<style>
+    .about-container {
+        padding: 20px;
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: #f8f9fa;
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 30px;
+        padding: 20px;
+        background: linear-gradient(135deg, #2196F3, #1976D2);
+        border-radius: 20px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .app-icon {
+        width: 64px;
+        height: 64px;
+        margin-bottom: 15px;
+        filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+    }
+
+    h1 {
+        color: white;
+        font-size: 2.5em;
+        margin: 0;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .info-section {
+        margin: 25px 0;
+        padding: 20px;
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        transition: transform 0.2s;
+    }
+
+    .info-section:hover {
+        transform: translateY(-2px);
+    }
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #e0e0e0;
+    }
+
+    .section-icon {
+        font-size: 24px;
+        margin-right: 15px;
+    }
+
+    h2 {
+        color: #2196F3;
+        font-size: 1.5em;
+        margin: 0;
+    }
+
+    .info-content {
+        padding: 10px;
+    }
+
+    .info-item {
+        display: flex;
+        margin: 10px 0;
+        padding: 8px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+    }
+
+    .label {
+        font-weight: bold;
+        color: #666;
+        min-width: 100px;
+    }
+
+    .value {
+        color: #2196F3;
+    }
+
+    .description {
+        margin-top: 15px;
+        color: #666;
+        font-style: italic;
+    }
+
+    .features-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .features-list li {
+        display: flex;
+        align-items: center;
+        margin: 15px 0;
+        padding: 10px;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        transition: transform 0.2s;
+    }
+
+    .features-list li:hover {
+        transform: translateX(5px);
+    }
+
+    .feature-icon {
+        font-size: 20px;
+        margin-right: 15px;
+    }
+
+    .features-list li span {
+        color: #333;
+        font-size: 1.1em;
+    }
+
+    @@media (max-width: 600px) {
+        .about-container {
+            padding: 10px;
+        }
+
+        .header {
+            padding: 15px;
+        }
+
+        h1 {
+            font-size: 2em;
+        }
+
+        .info-section {
+            padding: 15px;
+        }
+    }
+</style> 

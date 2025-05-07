@@ -1,0 +1,83 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MeteoApp.ViewModels"
+             xmlns:local="clr-namespace:MeteoApp.Converters"
+             x:Class="MeteoApp.ReminderListView"
+             Title="Reminders">
+    <ContentPage.BindingContext>
+        <viewmodels:ReminderListViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:BoolToTextConverter x:Key="BoolToTextConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+
+    <ScrollView>
+        <VerticalStackLayout Padding="10">
+            <Label Text="Reminders" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" />
+
+            <Frame BorderColor="LightGray" CornerRadius="10" Padding="5" BackgroundColor="White">
+                <CollectionView ItemsSource="{Binding Reminders}" Margin="0,10,0,20">
+                    <CollectionView.Header>
+                        <Grid ColumnDefinitions="2*,1*,1*,2*" Padding="0,0,0,10" BackgroundColor="#f0f0f0">
+                            <Label Text="Location" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
+                            <Label Text="T°C" FontAttributes="Bold" Grid.Column="1" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
+                            <Label Text="Type" FontAttributes="Bold" Grid.Column="2" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
+                            <Label Text="Actions" FontAttributes="Bold" Grid.Column="3" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
+                        </Grid>
+                    </CollectionView.Header>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BorderColor="LightGray" CornerRadius="5" Padding="5" Margin="0,5,0,5" BackgroundColor="#ffffff">
+                                <Grid ColumnDefinitions="2*,1*,1*,2*" Padding="0,5">
+                                    <Label Text="{Binding LocationName}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
+
+                                    <Label Text="{Binding Threshold, StringFormat='{0}°C'}" Grid.Column="1" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
+
+                                    <Label Text="{Binding IsMax, Converter={StaticResource BoolToTextConverter}, ConverterParameter='Max|Min'}" 
+                                            Grid.Column="2" 
+                                            VerticalTextAlignment="Center" 
+                                            HorizontalTextAlignment="Center" />
+
+                                    <HorizontalStackLayout Grid.Column="3" Spacing="5" HorizontalOptions="Center" VerticalOptions="Center">
+                                        <ImageButton Source="edit_icon.png" Clicked="OnEditReminder" CommandParameter="{Binding .}" BackgroundColor="Transparent" WidthRequest="30" HeightRequest="30" />
+                                        <ImageButton Source="delete_icon.png" Clicked="OnDeleteReminder" CommandParameter="{Binding Id}" BackgroundColor="Transparent" WidthRequest="30" HeightRequest="30" />
+                                    </HorizontalStackLayout>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Frame>
+
+            <Label Text="{Binding IsEditing, Converter={StaticResource BoolToTextConverter}, ConverterParameter='Edit Reminder|Add Reminder'}" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" />
+            <Frame BorderColor="LightGray" CornerRadius="10" Padding="10" BackgroundColor="White">
+                <StackLayout Spacing="10">
+                    <HorizontalStackLayout>
+                        <Picker x:Name="LocationPicker"
+                            Title="Select Location"
+                            ItemsSource="{Binding Locations}"
+                            ItemDisplayBinding="{Binding Name}"
+                            SelectedItem="{Binding CurrentLocation, Mode=TwoWay}" />       
+
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout>
+                        <Label Text="Threshold:" VerticalTextAlignment="Center" />
+                        <Entry Text="{Binding CurrentReminder.Threshold, Mode=TwoWay}" Keyboard="Numeric" Placeholder="Temperature Threshold" />
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout>
+                        <Label Text="Type (Min/Max):" VerticalTextAlignment="Center" />
+                        <Switch IsToggled="{Binding CurrentReminder.IsMax, Mode=TwoWay}"/>
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                        <Button Text="Save" Clicked="OnSaveReminder" BackgroundColor="Green" TextColor="White" CornerRadius="5" />
+                        <Button Text="Cancel" Clicked="OnCancelEdit" BackgroundColor="Gray" TextColor="White" CornerRadius="5" />
+                    </HorizontalStackLayout>
+                </StackLayout>
+            </Frame>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

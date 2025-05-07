@@ -398,3 +398,5 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/MeteoApp/appsettings.json
+/MeteoApp/Resources/Raw/keys.json

@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MeteoApp</title>
+    <base href="/" />
+    <style>
+        html, body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        #app {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">Loading...</div>
+    <script src="_framework/blazor.webview.js" autostart="false"></script>
+    <script>
+        window.external.receiveMessage = function (message) {
+            window.Blazor._internal.receiveMessage(message);
+        };
+    </script>
+</body>
+</html>
