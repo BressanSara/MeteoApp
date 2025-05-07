@@ -32,7 +32,7 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<ApiKeyProvider>();
         builder.Services.AddSingleton<MeteoService>();
-        builder.Services.AddSingleton<LocationListViewModel>();
+        builder.Services.AddSingleton<HomePageViewModel>();
         builder.Services.AddSingleton<GeoCodingService>();
 
         builder.Services.AddMauiBlazorWebView();

@@ -11,7 +11,7 @@ public partial class App : Application
 
     protected override Window CreateWindow(IActivationState activationState)
     {
-        var window = new Window(new LocationListView());
+        var window = new Window(new HomePageView());
         window.Title = "MeteoApp";
         return window;
     }

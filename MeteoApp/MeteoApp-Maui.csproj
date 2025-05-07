@@ -99,7 +99,7 @@
 	  <MauiXaml Update="LocationDetailsView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="LocationListView.xaml">
+	  <MauiXaml Update="HomePageView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ReminderListView.xaml">
@@ -107,7 +107,7 @@
 	  </MauiXaml>
 	</ItemGroup>
   <ItemGroup>
-    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="LocationListView.xaml.cs">
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="HomePageView.xaml.cs">
       <DependentUpon>LocationListView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>

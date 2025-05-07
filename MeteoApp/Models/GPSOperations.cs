@@ -27,11 +27,13 @@ public class GPSOperations
 
                 if (placemark != null)
                 {
-                    meteoLocation.Name = $"{placemark.Locality}, {placemark.CountryName}";
+                    meteoLocation.Name = placemark.Locality;
+                    meteoLocation.Country = placemark.CountryName;
                 }
                 else
                 {
                     meteoLocation.Name = $"{location.Latitude}, {location.Longitude}";
+                    meteoLocation.Country = "Unknown";
                 }
 
                 meteoLocation.Id = 0; // Prima posizione come identificativo

@@ -1,11 +1,28 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using MeteoApp.Models;
+using MeteoApp.Services;
+using Microsoft.Maui.Controls;
+
 
 namespace MeteoApp.ViewModels
 {
-    class LocationListViewModel : BaseViewModel
+    class HomePageViewModel : BaseViewModel
     {
+        private bool _appwriteDownload = false;
+
+        public bool AppwriteDownload
+        {
+            get => _appwriteDownload;
+            set
+            {
+                _appwriteDownload = value;
+                OnPropertyChanged();
+            }
+        }
+        
         private Timer _weatherUpdateTimer;
 
         private ObservableCollection<MeteoLocation> _locations;
@@ -67,64 +84,10 @@ namespace MeteoApp.ViewModels
 
         public string IconWeatherUrl => $"https://openweathermap.org/img/wn/{IconWeather}@2x.png";
 
-        public LocationListViewModel()
+        public HomePageViewModel()
         {
-            Locations = new ObservableCollection<MeteoLocation>
-            {
-                new MeteoLocation
-                {
-                    Id = 1,
-                    Name = "New York, USA",
-                    Coord = new Coord
-                    {
-                        lat = 40.7128,
-                        lon = -74.0060
-                    }
-                },
-                new MeteoLocation
-                {
-                    Id = 2,
-                    Name = "Tokyo, Japan",
-                    Coord = new Coord
-                    {
-                        lat = 35.6895,
-                        lon = 139.6917
-                    }
-                },
-                new MeteoLocation
-                {
-                    Id = 3,
-                    Name = "Sydney, Australia",
-                    Coord = new Coord
-                    {
-                        lat = -33.8688,
-                        lon = 151.2093
-                    }
-                },
-                new MeteoLocation
-                {
-                    Id = 4,
-                    Name = "Cape Town, South Africa",
-                    Coord = new Coord
-                    {
-                        lat = -33.9249,
-                        lon = 18.4241
-                    }
-                },
-                new MeteoLocation
-                {
-                    Id = 5,
-                    Name = "Paris, France",
-                    Coord = new Coord
-                    {
-                        lat = 48.8566,
-                        lon = 2.3522
-                    }
-                }
-            };
-
+            _ = LoadLocationsAsync();
             _ = LoadWeatherDataAsync();
-
             StartWeatherUpdateTimer();
         }
 
@@ -154,6 +117,7 @@ namespace MeteoApp.ViewModels
 
         private async Task ReloadWeatherDataAsync()
         {
+            await AppWriteService.InitializeAsync();
             try
             {
                 await LoadWeatherDataAsync();
@@ -161,6 +125,21 @@ namespace MeteoApp.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine($"Errore durante il reload dei dati meteo: {ex.Message}");
+            }
+        }
+
+        private async Task LoadLocationsAsync()
+        {
+            try
+            {
+                Locations = await new LocationsViewModel().LoadLocationsAsync();
+                AppwriteDownload = true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                AppwriteDownload = false;
+                throw;
             }
         }
 

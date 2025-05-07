@@ -76,7 +76,7 @@ namespace MeteoApp.ViewModels
 
         private async Task LoadLocationsAsync()
         {
-            LocationListViewModel viewModel = new LocationListViewModel();
+            HomePageViewModel viewModel = new HomePageViewModel();
             Locations = viewModel.Locations;
         }
 

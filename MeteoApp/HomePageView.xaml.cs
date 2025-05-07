@@ -8,16 +8,16 @@ using System.Windows.Input;
 
 namespace MeteoApp;
 
-public partial class LocationListView : Shell
+public partial class HomePageView : Shell
 {
     public Dictionary<string, Type> Routes { get; private set; } = new Dictionary<string, Type>();
 
-    public LocationListView()
+    public HomePageView()
     {
         InitializeComponent();
         RegisterRoutes();
-
-        BindingContext = new LocationListViewModel();
+        
+        BindingContext = new HomePageViewModel();
     }
 
     private void RegisterRoutes()
@@ -82,7 +82,7 @@ public partial class LocationListView : Shell
 
         if (confirm)
         {
-            (BindingContext as LocationListViewModel)?.Locations.Remove(item);
+            (BindingContext as HomePageViewModel)?.Locations.Remove(item);
         }
     }
 }
