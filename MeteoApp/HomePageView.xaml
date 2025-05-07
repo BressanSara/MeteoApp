@@ -14,7 +14,10 @@
                 </Grid.RowDefinitions>
 
                 <VerticalStackLayout Grid.Row="0" VerticalOptions="Center">
-                    <Image Source="{Binding IconWeatherUrl}" HeightRequest="100" HorizontalOptions="Center"></Image>
+                    <Image Source="{Binding CurrentLocationWeatherData.Weather[0].Main, Converter={StaticResource WeatherIconConverter}}"
+                           HeightRequest="100"
+                           WidthRequest="100"
+                           HorizontalOptions="Center"></Image>
 
                     <Label Text="{Binding CurrentLocation.Name}" FontSize="24" HorizontalOptions="Center" />
                     <Label Text="{Binding CurrentLocationWeatherData.Weather[0].Description}" FontSize="14" HorizontalOptions="Center" />

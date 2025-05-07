@@ -133,7 +133,7 @@
             <!-- Forecast Carousel -->
             <Border Stroke="#9C27B0" StrokeShape="RoundRectangle 20" BackgroundColor="#F3E5F5" Padding="12">
                 <StackLayout Spacing="10">
-                    <Label Text="📅 5-Day Forecast" 
+                    <Label Text="📆 5-Day Forecast" 
                            FontSize="16" 
                            FontAttributes="Bold"
                            TextColor="#6A1B9A"
