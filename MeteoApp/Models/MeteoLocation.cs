@@ -18,7 +18,7 @@ namespace MeteoApp.Models
         override
         public string ToString()
         {
-            return $"Name: {Name} ({Latitude}, {Longitude}), Coords: ({Coord.lat}, {Coord.lon})";
+            return $"Name: {Name} Country:{Country} Lat:{Latitude} Lon:{Longitude}";
         }
     }
 }

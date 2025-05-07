@@ -1,6 +1,8 @@
 using System;
 using System.ComponentModel;
+using System.Linq;
 using MeteoApp.Models;
+using MeteoApp.Services;
 using MeteoApp.ViewModels;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Controls.Maps;
@@ -42,14 +44,50 @@ public partial class MapPage : ContentPage
 	private async void OnMapClicked(object? sender, MapClickedEventArgs e)
 	{
 		selectedLocation = e.Location;
+		var gps = new GPSOperations();
+			
+		var meteoLocation = await gps.GetLocationAsync(selectedLocation.Latitude, selectedLocation.Longitude);
 		
-		await DisplayAlert(
-			"Coordinates",
-			"Latitude = " + selectedLocation.Latitude
-			+ "\nLongitude = " + selectedLocation.Longitude, 
-			"OK");
-
+		var lvm = new LocationsViewModel();
+		await lvm.AddLocationAsync(meteoLocation);
 	}
+	
+	private async void OnSearchConfirmed(object sender, EventArgs e)
+	{
+		var query = LocationSearchBar.Text;
+
+		if (string.IsNullOrWhiteSpace(query))
+			return;
+
+		try
+		{
+			var locations = await Geocoding.GetLocationsAsync(query);
+			var location = locations?.FirstOrDefault();
+
+			if (location != null)
+			{
+				var mapSpan = MapSpan.FromCenterAndRadius(
+					new Microsoft.Maui.Devices.Sensors.Location(location.Latitude, location.Longitude),
+					Distance.FromKilometers(5));
+
+				MyMap.MoveToRegion(mapSpan);
+
+				MyMap.Pins.Clear();
+				MyMap.Pins.Add(new Pin
+				{
+					Label = query,
+					Location = new Microsoft.Maui.Devices.Sensors.Location(location.Latitude, location.Longitude)
+				});
+			}
+		}
+		catch (Exception ex)
+		{
+			await DisplayAlert("Error", "Unable to find location.", "OK");
+			Console.WriteLine(ex);
+		}
+	}
+
+
 	
 	private double RandomLatitude()
 	{

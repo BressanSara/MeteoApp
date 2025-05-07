@@ -61,6 +61,11 @@ public partial class HomePageView : Shell
         await Navigation.PushAsync(new MapPage());
     }
 
+    private async void OnAddLocation(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new LocationAddView());
+    }
+
     private async Task ShowPrompt(string message)
     {
         await DialogService.Instance.ShowAlert("To be implemented", message, "OK");

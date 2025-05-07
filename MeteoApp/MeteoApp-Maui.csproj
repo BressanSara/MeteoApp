@@ -108,10 +108,17 @@
 	  <MauiXaml Update="ReminderListView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="LocationAddView.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
 	</ItemGroup>
   <ItemGroup>
     <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="HomePageView.xaml.cs">
       <DependentUpon>LocationListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="LocationAddView.xaml.cs">
+      <DependentUpon>LocationAddView.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
