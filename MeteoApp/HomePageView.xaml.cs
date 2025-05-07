@@ -1,11 +1,15 @@
+using System;
+using System.Collections.Generic;
 using MeteoApp.Models;
 using MeteoApp.ViewModels;
 using Plugin.Firebase.CloudMessaging;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MeteoApp.Services;
+using Microsoft.Maui.Controls;
 
 namespace MeteoApp;
 
@@ -57,7 +61,7 @@ public partial class HomePageView : Shell
 
     private async void OnAddLocation(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("///add-location");
+        await Navigation.PushAsync(new LocationAddView());
     }
 
     private async Task ShowPrompt(string message)

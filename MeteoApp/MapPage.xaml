@@ -4,7 +4,20 @@
              x:Class="MeteoApp.MapPage"
              Title="MapPage"
              xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps">
+    <Grid>
+        <maps:Map x:Name="MyMap" IsShowingUser="True" MapClicked="OnMapClicked"/>
+
+        <SearchBar x:Name="LocationSearchBar"
+                   Placeholder="Search for a location..."
+                   SearchButtonPressed="OnSearchConfirmed"
+                   Margin="10"
+                   BackgroundColor="White"
+                   VerticalOptions="Start"/>
+    </Grid>
     
-    <maps:Map x:Name="MyMap" MapClicked="OnMapClicked"/>
+    
+    
+
+
         
 </ContentPage>

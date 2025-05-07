@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using MeteoApp.Models;
+using MeteoApp.Services;
 using Microsoft.Maui.Devices.Sensors;
 
 public class GPSOperations
@@ -9,7 +10,6 @@ public class GPSOperations
     public async Task<MeteoLocation> GetCurrentLocationAsync()
     {
         MeteoLocation meteoLocation = new MeteoLocation();
-
         
         try
         {
@@ -47,4 +47,46 @@ public class GPSOperations
 
         return meteoLocation;
     }
+    
+    public async Task<MeteoLocation> GetLocationAsync(double latitude, double longitude)
+    {
+        var meteoLocation = new MeteoLocation
+        {
+            Latitude = latitude,
+            Longitude = longitude
+        };
+
+        try
+        {
+            if (latitude >= -90 && latitude <= 90 && longitude >= -180 && longitude <= 180)
+            {
+                var placemarks = await Geocoding.GetPlacemarksAsync(latitude, longitude);
+                var placemark = placemarks?.FirstOrDefault();
+
+                if (placemark != null)
+                {
+                    meteoLocation.Name = placemark.Locality;
+                    meteoLocation.Country = placemark.CountryName;
+                }
+                else
+                {
+                    meteoLocation.Name = $"{Math.Round(latitude, 4)}, {Math.Round(longitude, 4)}";
+                    meteoLocation.Country = "Unknown";
+                }
+            }
+            await DialogService.Instance.ShowAlert("Location", meteoLocation.Name, "OK");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error: " + ex.Message);
+            await DialogService.Instance.ShowAlert("Geolocation Error", ex.Message, "OK");
+
+            // fallback già assegnato sopra
+            meteoLocation.Name = $"{latitude}, {longitude}";
+            meteoLocation.Country = "Unknown";
+        }
+
+        return meteoLocation;
+    }
+
 }

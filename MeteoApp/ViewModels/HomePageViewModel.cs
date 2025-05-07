@@ -117,9 +117,9 @@ namespace MeteoApp.ViewModels
 
         private async Task ReloadWeatherDataAsync()
         {
-            await AppWriteService.InitializeAsync();
             try
             {
+                await AppWriteService.InitializeAsync();
                 await LoadWeatherDataAsync();
             }
             catch (Exception ex)
@@ -148,7 +148,7 @@ namespace MeteoApp.ViewModels
             try
             {
                 var meteoService = new MeteoService(new HttpClient());
-                GPSOperations gpsOperations = new GPSOperations();
+                var gpsOperations = new GPSOperations();
 
                 CurrentLocation = await gpsOperations.GetCurrentLocationAsync();
 
