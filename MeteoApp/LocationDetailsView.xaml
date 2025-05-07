@@ -7,195 +7,207 @@
              x:DataType="local:LocationDetailsViewModel"
              Title="{Binding MeteoLocation.Name}"
              BackgroundColor="#F0F8FF">
-    <ScrollView>
-        <StackLayout Padding="15" Spacing="15">
-            <!-- Weather Icon and Description Card -->
-            <Border Stroke="#4CAF50" StrokeShape="RoundRectangle 20" BackgroundColor="#E8F5E9" Padding="12">
-                <StackLayout HorizontalOptions="Center" Spacing="10">
-                    <Frame BackgroundColor="White" 
-                           BorderColor="#4CAF50" 
-                           CornerRadius="15" 
-                           Padding="8"
-                           HasShadow="True">
-                        <Image Source="{Binding IconString}" 
-                               WidthRequest="120" 
-                               HeightRequest="120" />
-                    </Frame>
-                    <Label Text="{Binding CurrentWeatherData.Weather[0].Description}" 
-                           FontSize="18" 
-                           FontAttributes="Bold"
-                           TextColor="#2E7D32"
-                           HorizontalOptions="Center" />
-                </StackLayout>
-            </Border>
+    <Grid>
+        <ScrollView>
+            <StackLayout Padding="15" Spacing="15">
+                <!-- Weather Icon and Description Card -->
+                <Border Stroke="#4CAF50" StrokeShape="RoundRectangle 20" BackgroundColor="#E8F5E9" Padding="12">
+                    <StackLayout HorizontalOptions="Center" Spacing="10">
+                        <Frame BackgroundColor="White" 
+                               BorderColor="#4CAF50" 
+                               CornerRadius="15" 
+                               Padding="8"
+                               HasShadow="True">
+                            <Image Source="{Binding IconString}" 
+                                   WidthRequest="120" 
+                                   HeightRequest="120" />
+                        </Frame>
+                        <Label Text="{Binding CurrentWeatherData.Weather[0].Description}" 
+                               FontSize="18" 
+                               FontAttributes="Bold"
+                               TextColor="#2E7D32"
+                               HorizontalOptions="Center" />
+                    </StackLayout>
+                </Border>
 
-            <!-- Temperature Card -->
-            <Border Stroke="#2196F3" StrokeShape="RoundRectangle 20" BackgroundColor="#E3F2FD" Padding="12">
-                <StackLayout Spacing="10">
-                    <Label Text="🌡️ Temperature Details" 
-                           FontSize="16" 
-                           FontAttributes="Bold"
-                           TextColor="#1565C0"
-                           HorizontalOptions="Center" />
-                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto" Padding="8">
-                        <Label Text="Temperature:" 
-                               Grid.Row="0" Grid.Column="0"
-                               FontSize="14" 
+                <!-- Temperature Card -->
+                <Border Stroke="#2196F3" StrokeShape="RoundRectangle 20" BackgroundColor="#E3F2FD" Padding="12">
+                    <StackLayout Spacing="10">
+                        <Label Text="🌡️ Temperature Details" 
+                               FontSize="16" 
                                FontAttributes="Bold"
-                               TextColor="#1976D2" />
-                        <Label Text="{Binding CurrentWeatherData.Main.Temp, StringFormat='{0}°C'}" 
-                               Grid.Row="0" Grid.Column="1"
-                               FontSize="14"
-                               TextColor="#1976D2"
-                               HorizontalOptions="End" />
-                        
-                        <Label Text="Min Temperature:" 
-                               Grid.Row="1" Grid.Column="0"
-                               FontSize="14" 
-                               FontAttributes="Bold"
-                               TextColor="#1976D2" />
-                        <Label Text="{Binding CurrentWeatherData.Main.TempMin, StringFormat='{0}°C'}" 
-                               Grid.Row="1" Grid.Column="1"
-                               FontSize="14"
-                               TextColor="#1976D2"
-                               HorizontalOptions="End" />
+                               TextColor="#1565C0"
+                               HorizontalOptions="Center" />
+                        <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto" Padding="8">
+                            <Label Text="Temperature:" 
+                                   Grid.Row="0" Grid.Column="0"
+                                   FontSize="14" 
+                                   FontAttributes="Bold"
+                                   TextColor="#1976D2" />
+                            <Label Text="{Binding CurrentWeatherData.Main.Temp, StringFormat='{0}°C'}" 
+                                   Grid.Row="0" Grid.Column="1"
+                                   FontSize="14"
+                                   TextColor="#1976D2"
+                                   HorizontalOptions="End" />
 
-                        <Label Text="Max Temperature:" 
-                               Grid.Row="2" Grid.Column="0"
-                               FontSize="14" 
-                               FontAttributes="Bold"
-                               TextColor="#1976D2" />
-                        <Label Text="{Binding CurrentWeatherData.Main.TempMax, StringFormat='{0}°C'}" 
-                               Grid.Row="2" Grid.Column="1"
-                               FontSize="14"
-                               TextColor="#1976D2"
-                               HorizontalOptions="End" />
-                        
-                        <Label Text="Feels Like:" 
-                               Grid.Row="3" Grid.Column="0"
-                               FontSize="14" 
-                               FontAttributes="Bold"
-                               TextColor="#1976D2" />
-                        <Label Text="{Binding CurrentWeatherData.Main.FeelsLike, StringFormat='{0}°C'}" 
-                               Grid.Row="3" Grid.Column="1"
-                               FontSize="14"
-                               TextColor="#1976D2"
-                               HorizontalOptions="End" />
-                        
-                        <Label Text="Humidity:" 
-                               Grid.Row="4" Grid.Column="0"
-                               FontSize="14" 
-                               FontAttributes="Bold"
-                               TextColor="#1976D2" />
-                        <Label Text="{Binding CurrentWeatherData.Main.Humidity, StringFormat='{0}%'}" 
-                               Grid.Row="4" Grid.Column="1"
-                               FontSize="14"
-                               TextColor="#1976D2"
-                               HorizontalOptions="End" />
-                    </Grid>
-                </StackLayout>
-            </Border>
+                            <Label Text="Min Temperature:" 
+                                   Grid.Row="1" Grid.Column="0"
+                                   FontSize="14" 
+                                   FontAttributes="Bold"
+                                   TextColor="#1976D2" />
+                            <Label Text="{Binding CurrentWeatherData.Main.TempMin, StringFormat='{0}°C'}" 
+                                   Grid.Row="1" Grid.Column="1"
+                                   FontSize="14"
+                                   TextColor="#1976D2"
+                                   HorizontalOptions="End" />
 
-            <!-- Wind Card -->
-            <Border Stroke="#FF9800" StrokeShape="RoundRectangle 20" BackgroundColor="#FFF3E0" Padding="12">
-                <StackLayout Spacing="10">
-                    <Label Text="💨 Wind Information" 
-                           FontSize="16" 
-                           FontAttributes="Bold"
-                           TextColor="#E65100"
-                           HorizontalOptions="Center" />
-                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" Padding="8">
-                        <Label Text="Wind Speed:" 
-                               Grid.Row="0" Grid.Column="0"
-                               FontSize="14" 
-                               FontAttributes="Bold"
-                               TextColor="#F57C00" />
-                        <Label Text="{Binding CurrentWeatherData.Wind.Speed, StringFormat='{0} m/s'}" 
-                               Grid.Row="0" Grid.Column="1"
-                               FontSize="14"
-                               TextColor="#F57C00"
-                               HorizontalOptions="End" />
-                        
-                        <Label Text="Wind Direction:" 
-                               Grid.Row="1" Grid.Column="0"
-                               FontSize="14" 
-                               FontAttributes="Bold"
-                               TextColor="#F57C00" />
-                        <Label Text="{Binding CurrentWeatherData.Wind.Deg, StringFormat='{0}°'}" 
-                               Grid.Row="1" Grid.Column="1"
-                               FontSize="14"
-                               TextColor="#F57C00"
-                               HorizontalOptions="End" />
-                    </Grid>
-                </StackLayout>
-            </Border>
+                            <Label Text="Max Temperature:" 
+                                   Grid.Row="2" Grid.Column="0"
+                                   FontSize="14" 
+                                   FontAttributes="Bold"
+                                   TextColor="#1976D2" />
+                            <Label Text="{Binding CurrentWeatherData.Main.TempMax, StringFormat='{0}°C'}" 
+                                   Grid.Row="2" Grid.Column="1"
+                                   FontSize="14"
+                                   TextColor="#1976D2"
+                                   HorizontalOptions="End" />
 
-            <!-- Forecast Carousel -->
-            <Border Stroke="#9C27B0" StrokeShape="RoundRectangle 20" BackgroundColor="#F3E5F5" Padding="12">
-                <StackLayout Spacing="10">
-                    <Label Text="📆 5-Day Forecast" 
-                           FontSize="16" 
-                           FontAttributes="Bold"
-                           TextColor="#6A1B9A"
-                           HorizontalOptions="Center" />
-                    
-                    <CarouselView ItemsSource="{Binding ForecastItems}"
-                                HeightRequest="200"
-                                Loop="False">
-                        <CarouselView.ItemTemplate>
-                            <DataTemplate x:DataType="models:ForecastItem">
-                                <Frame Margin="5"
-                                       BorderColor="#9C27B0"
-                                       CornerRadius="15"
-                                       BackgroundColor="White"
-                                       HasShadow="True">
-                                    <StackLayout Spacing="8">
-                                        <Label Text="{Binding Dt, Converter={StaticResource DateTimeConverter}}"
-                                               FontSize="16"
-                                               FontAttributes="Bold"
-                                               TextColor="#6A1B9A"
-                                               HorizontalOptions="Center" />
-                                        
-                                        <Image Source="{Binding Weather[0].Main, Converter={StaticResource WeatherIconConverter}}"
-                                               HeightRequest="50"
-                                               WidthRequest="50"
-                                               HorizontalOptions="Center" />
-                                        
-                                        <Label Text="{Binding Weather[0].Description}"
-                                               FontSize="14"
-                                               TextColor="#6A1B9A"
-                                               HorizontalOptions="Center" />
-                                        
-                                        <Grid ColumnDefinitions="*,*" Padding="5">
-                                            <Label Text="Temp:"
-                                                   Grid.Column="0"
-                                                   FontSize="14"
-                                                   TextColor="#6A1B9A" />
-                                            <Label Text="{Binding Main.Temp, StringFormat='{0}°C'}"
-                                                   Grid.Column="1"
+                            <Label Text="Feels Like:" 
+                                   Grid.Row="3" Grid.Column="0"
+                                   FontSize="14" 
+                                   FontAttributes="Bold"
+                                   TextColor="#1976D2" />
+                            <Label Text="{Binding CurrentWeatherData.Main.FeelsLike, StringFormat='{0}°C'}" 
+                                   Grid.Row="3" Grid.Column="1"
+                                   FontSize="14"
+                                   TextColor="#1976D2"
+                                   HorizontalOptions="End" />
+
+                            <Label Text="Humidity:" 
+                                   Grid.Row="4" Grid.Column="0"
+                                   FontSize="14" 
+                                   FontAttributes="Bold"
+                                   TextColor="#1976D2" />
+                            <Label Text="{Binding CurrentWeatherData.Main.Humidity, StringFormat='{0}%'}" 
+                                   Grid.Row="4" Grid.Column="1"
+                                   FontSize="14"
+                                   TextColor="#1976D2"
+                                   HorizontalOptions="End" />
+                        </Grid>
+                    </StackLayout>
+                </Border>
+
+                <!-- Wind Card -->
+                <Border Stroke="#FF9800" StrokeShape="RoundRectangle 20" BackgroundColor="#FFF3E0" Padding="12">
+                    <StackLayout Spacing="10">
+                        <Label Text="💨 Wind Information" 
+                               FontSize="16" 
+                               FontAttributes="Bold"
+                               TextColor="#E65100"
+                               HorizontalOptions="Center" />
+                        <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" Padding="8">
+                            <Label Text="Wind Speed:" 
+                                   Grid.Row="0" Grid.Column="0"
+                                   FontSize="14" 
+                                   FontAttributes="Bold"
+                                   TextColor="#F57C00" />
+                            <Label Text="{Binding CurrentWeatherData.Wind.Speed, StringFormat='{0} m/s'}" 
+                                   Grid.Row="0" Grid.Column="1"
+                                   FontSize="14"
+                                   TextColor="#F57C00"
+                                   HorizontalOptions="End" />
+
+                            <Label Text="Wind Direction:" 
+                                   Grid.Row="1" Grid.Column="0"
+                                   FontSize="14" 
+                                   FontAttributes="Bold"
+                                   TextColor="#F57C00" />
+                            <Label Text="{Binding CurrentWeatherData.Wind.Deg, StringFormat='{0}°'}" 
+                                   Grid.Row="1" Grid.Column="1"
+                                   FontSize="14"
+                                   TextColor="#F57C00"
+                                   HorizontalOptions="End" />
+                        </Grid>
+                    </StackLayout>
+                </Border>
+
+                <!-- Forecast Carousel -->
+                <Border Stroke="#9C27B0" StrokeShape="RoundRectangle 20" BackgroundColor="#F3E5F5" Padding="12">
+                    <StackLayout Spacing="10">
+                        <Label Text="📆 5-Day Forecast" 
+                               FontSize="16" 
+                               FontAttributes="Bold"
+                               TextColor="#6A1B9A"
+                               HorizontalOptions="Center" />
+
+                        <CarouselView ItemsSource="{Binding ForecastItems}"
+                                    HeightRequest="200"
+                                    Loop="False">
+                            <CarouselView.ItemTemplate>
+                                <DataTemplate x:DataType="models:ForecastItem">
+                                    <Frame Margin="5"
+                                           BorderColor="#9C27B0"
+                                           CornerRadius="15"
+                                           BackgroundColor="White"
+                                           HasShadow="True">
+                                        <StackLayout Spacing="8">
+                                            <Label Text="{Binding Dt, Converter={StaticResource DateTimeConverter}}"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#6A1B9A"
+                                                   HorizontalOptions="Center" />
+
+                                            <Image Source="{Binding Weather[0].Main, Converter={StaticResource WeatherIconConverter}}"
+                                                   HeightRequest="50"
+                                                   WidthRequest="50"
+                                                   HorizontalOptions="Center" />
+
+                                            <Label Text="{Binding Weather[0].Description}"
                                                    FontSize="14"
                                                    TextColor="#6A1B9A"
-                                                   HorizontalOptions="End" />
-                                        </Grid>
-                                        
-                                        <Grid ColumnDefinitions="*,*" Padding="5">
-                                            <Label Text="Humidity:"
-                                                   Grid.Column="0"
-                                                   FontSize="14"
-                                                   TextColor="#6A1B9A" />
-                                            <Label Text="{Binding Main.Humidity, StringFormat='{0}%'}"
-                                                   Grid.Column="1"
-                                                   FontSize="14"
-                                                   TextColor="#6A1B9A"
-                                                   HorizontalOptions="End" />
-                                        </Grid>
-                                    </StackLayout>
-                                </Frame>
-                            </DataTemplate>
-                        </CarouselView.ItemTemplate>
-                    </CarouselView>
-                </StackLayout>
-            </Border>
-        </StackLayout>
-    </ScrollView>
+                                                   HorizontalOptions="Center" />
+
+                                            <Grid ColumnDefinitions="*,*" Padding="5">
+                                                <Label Text="Temp:"
+                                                       Grid.Column="0"
+                                                       FontSize="14"
+                                                       TextColor="#6A1B9A" />
+                                                <Label Text="{Binding Main.Temp, StringFormat='{0}°C'}"
+                                                       Grid.Column="1"
+                                                       FontSize="14"
+                                                       TextColor="#6A1B9A"
+                                                       HorizontalOptions="End" />
+                                            </Grid>
+
+                                            <Grid ColumnDefinitions="*,*" Padding="5">
+                                                <Label Text="Humidity:"
+                                                       Grid.Column="0"
+                                                       FontSize="14"
+                                                       TextColor="#6A1B9A" />
+                                                <Label Text="{Binding Main.Humidity, StringFormat='{0}%'}"
+                                                       Grid.Column="1"
+                                                       FontSize="14"
+                                                       TextColor="#6A1B9A"
+                                                       HorizontalOptions="End" />
+                                            </Grid>
+                                        </StackLayout>
+                                    </Frame>
+                                </DataTemplate>
+                            </CarouselView.ItemTemplate>
+                        </CarouselView>
+                    </StackLayout>
+                </Border>
+            </StackLayout>
+        </ScrollView>
+
+        <ImageButton Source="add.png"
+                    Clicked="OnAddLocationClicked"
+                    IsVisible="{Binding CanAddLocation}"
+                    HeightRequest="48"
+                    WidthRequest="48"
+                    BackgroundColor="Transparent"
+                    Margin="0,10,10,0"
+                    HorizontalOptions="End"
+                    VerticalOptions="Start"/>
+    </Grid>
 </ContentPage>

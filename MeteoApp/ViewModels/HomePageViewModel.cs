@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using MeteoApp.Models;
 using MeteoApp.Services;
 using Microsoft.Maui.Controls;
-
+using System.Linq;
 
 namespace MeteoApp.ViewModels
 {
-    class HomePageViewModel : BaseViewModel
+    public class HomePageViewModel : BaseViewModel
     {
         private bool _appwriteDownload = false;
 
@@ -84,8 +84,22 @@ namespace MeteoApp.ViewModels
 
         public string IconWeatherUrl => $"https://openweathermap.org/img/wn/{IconWeather}@2x.png";
 
+        private bool _canAddCurrentLocation;
+        private readonly LocationsViewModel _locationsViewModel;
+
+        public bool CanAddCurrentLocation
+        {
+            get => _canAddCurrentLocation;
+            set
+            {
+                _canAddCurrentLocation = value;
+                OnPropertyChanged();
+            }
+        }
+
         public HomePageViewModel()
         {
+            _locationsViewModel = new LocationsViewModel();
             _ = LoadLocationsAsync();
             _ = LoadWeatherDataAsync();
             StartWeatherUpdateTimer();
@@ -118,12 +132,28 @@ namespace MeteoApp.ViewModels
         {
             try
             {
-                await AppWriteService.InitializeAsync();
-                await LoadWeatherDataAsync();
+                // Ricarica la lista delle località
+                var locationsViewModel = new LocationsViewModel();
+                Locations = await locationsViewModel.LoadLocationsAsync();
+
+                // Aggiorna i dati meteo per ogni località
+                var meteoService = new MeteoService(new HttpClient());
+                foreach (var location in Locations)
+                {
+                    var weatherData = await meteoService.GetWeatherAsync(location);
+                    if (weatherData != null)
+                    {
+                        // Aggiorna i dati meteo per la località
+                        location.WeatherData = weatherData;
+                    }
+                }
+
+                OnPropertyChanged(nameof(Locations));
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Errore durante il reload dei dati meteo: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Error reloading weather data: {ex.Message}");
+                throw;
             }
         }
 
@@ -154,6 +184,7 @@ namespace MeteoApp.ViewModels
                 if (CurrentLocation != null)
                 {
                     CurrentLocationWeatherData = await meteoService.GetWeatherAsync(CurrentLocation);
+                    await CheckIfCurrentLocationExists();
 
                     if (CurrentLocationWeatherData == null)
                     {
@@ -173,6 +204,44 @@ namespace MeteoApp.ViewModels
             {
                 OnPropertyChanged(nameof(CurrentLocation));
                 OnPropertyChanged(nameof(CurrentLocationWeatherData));
+            }
+        }
+
+        private async Task CheckIfCurrentLocationExists()
+        {
+            if (CurrentLocation == null) return;
+
+            try
+            {
+                var locations = await _locationsViewModel.LoadLocationsAsync();
+                var locationExists = locations.Any(l => 
+                    Math.Abs(l.Latitude - CurrentLocation.Latitude) < 0.0001 && 
+                    Math.Abs(l.Longitude - CurrentLocation.Longitude) < 0.0001);
+                
+                CanAddCurrentLocation = !locationExists;
+                System.Diagnostics.Debug.WriteLine($"Current location exists: {locationExists}, CanAddCurrentLocation: {CanAddCurrentLocation}");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error checking if current location exists: {ex.Message}");
+                CanAddCurrentLocation = false;
+            }
+        }
+
+        public async Task AddCurrentLocationAsync()
+        {
+            if (CurrentLocation == null) return;
+
+            try
+            {
+                await _locationsViewModel.AddLocationAsync(CurrentLocation);
+                CanAddCurrentLocation = false;
+                await ReloadWeatherDataAsync();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error adding current location: {ex.Message}");
+                throw;
             }
         }
     }

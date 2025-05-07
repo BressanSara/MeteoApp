@@ -6,6 +6,8 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MeteoApp.Services;
+using System;
+using System.Linq;
 
 namespace MeteoApp;
 
@@ -17,9 +19,9 @@ public partial class HomePageView : Shell
     {
         InitializeComponent();
         RegisterRoutes();
-        
+
         DialogService.Instance.Initialize(this);
-        
+
         BindingContext = new HomePageViewModel();
     }
 
@@ -28,6 +30,7 @@ public partial class HomePageView : Shell
         Routes.Add("locationdetails", typeof(LocationDetailsView));
         Routes.Add("ReminderList", typeof(ReminderListView));
         Routes.Add("about", typeof(BlazorHostPage));
+        Routes.Add("locationsearch", typeof(LocationSearchPage));
 
         foreach (var item in Routes)
             Routing.RegisterRoute(item.Key, item.Value);
@@ -48,7 +51,7 @@ public partial class HomePageView : Shell
             };
 
             await Shell.Current.GoToAsync($"locationdetails", navigationParameter);
-            
+
             if (sender is CollectionView collectionView)
             {
                 collectionView.SelectedItem = null;
@@ -59,11 +62,6 @@ public partial class HomePageView : Shell
     private async void OnMapClicked(object sender, EventArgs e)
     {
         await Navigation.PushAsync(new MapPage());
-    }
-
-    private async void OnAddLocation(object sender, EventArgs e)
-    {
-        await Navigation.PushAsync(new LocationAddView());
     }
 
     private async Task ShowPrompt(string message)
@@ -91,7 +89,19 @@ public partial class HomePageView : Shell
         {
             var vm = new LocationsViewModel();
             await vm.DeleteLocationAsync(item);
-            (BindingContext as HomePageViewModel)?.Locations.Remove(item);
+
+            if (BindingContext is HomePageViewModel viewModel)
+            {
+                viewModel.Locations.Remove(item);
+
+                // Check if the deleted location was the current location
+                if (viewModel.CurrentLocation != null &&
+                    Math.Abs(viewModel.CurrentLocation.Latitude - item.Latitude) < 0.0001 &&
+                    Math.Abs(viewModel.CurrentLocation.Longitude - item.Longitude) < 0.0001)
+                {
+                    viewModel.CanAddCurrentLocation = true;
+                }
+            }
         }
     }
 
@@ -102,7 +112,7 @@ public partial class HomePageView : Shell
 
     private async void OnAddLocationClicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new MapPage());
+        await Shell.Current.GoToAsync("locationsearch");
     }
 
     private async void OnUpdateClicked(object sender, EventArgs e)
@@ -110,6 +120,22 @@ public partial class HomePageView : Shell
         if (BindingContext is HomePageViewModel viewModel)
         {
             await viewModel.ReloadWeatherDataAsync();
+        }
+    }
+
+    private async void OnAddCurrentLocationClicked(object sender, EventArgs e)
+    {
+        try
+        {
+            if (BindingContext is HomePageViewModel viewModel)
+            {
+                await viewModel.AddCurrentLocationAsync();
+                await DisplayAlert("Success", "Current location added successfully!", "OK");
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", "Failed to add current location: " + ex.Message, "OK");
         }
     }
 }

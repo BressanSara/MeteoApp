@@ -13,8 +13,8 @@ namespace MeteoApp.Services
         public static Client Client { get; private set; }
         public static Databases Database { get; private set; }
 
-        public static string DatabaseId; // o ID creato nella console
-        public static string CollectionId; // o ID della collezione
+        public static string DatabaseId; 
+        public static string CollectionId; 
         
         public static async Task InitializeAsync()
         {

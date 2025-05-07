@@ -18,6 +18,11 @@ Il file deve essere strutturato come segue:
 
 ```JSON
 {
-  "OpenWeatherApiKey": "KEY"
+  "OpenWeatherApiKey": "openweathermap",
+  "AppWriteEndpoint": "endpoint",
+  "AppWriteProjectId": "projectid",
+  "AppWriteDatabaseId": "meteoapp",
+  "AppWriteCollectionId": "locations",
+  "AppWriteApiKey": "apikey"
 }
 ```

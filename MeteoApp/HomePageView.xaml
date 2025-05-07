@@ -26,6 +26,14 @@
                         <Label Text="{Binding CurrentLocationWeatherData.Main.TempMin}" FontSize="14" HorizontalOptions="Center" />
                         <Label Text="{Binding CurrentLocationWeatherData.Main.TempMax}" FontSize="14" HorizontalOptions="Center" />
                     </HorizontalStackLayout>
+
+                    <ImageButton Source="add.png"
+                                Clicked="OnAddCurrentLocationClicked"
+                                IsVisible="{Binding CanAddCurrentLocation}"
+                                HeightRequest="48"
+                                WidthRequest="48"
+                                BackgroundColor="Transparent"
+                                Margin="0,10,0,0"/>
                 </VerticalStackLayout>
 
                 <CollectionView Grid.Row="1" ItemsSource="{Binding Locations}" SelectionMode="Single" SelectionChanged="OnCollectionViewSelectionChanged" Margin="10">

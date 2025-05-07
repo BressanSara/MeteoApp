@@ -18,6 +18,13 @@
                 Route="about"
                 FlyoutItemIsVisible="False" />
 
+            <ShellContent
+                x:Key="LocationSearchPageContent"
+                x:Name="LocationSearchPage"
+                ContentTemplate="{DataTemplate local:LocationSearchPage}"
+                Route="locationsearch"
+                FlyoutItemIsVisible="False" />
+
             <converters:WeatherIconConverter x:Key="WeatherIconConverter" />
         </ResourceDictionary>
     </Application.Resources>
