@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace MeteoApp.ViewModels
 {
-    class HomePageViewModel : BaseViewModel
+    public class HomePageViewModel : BaseViewModel
     {
         private bool _appwriteDownload = false;
 

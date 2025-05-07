@@ -18,10 +18,10 @@ namespace MeteoApp.ViewModels
         private readonly LocationsViewModel _locationsViewModel;
         private readonly HomePageViewModel _homePageViewModel;
 
-        public LocationDetailsViewModel()
+        public LocationDetailsViewModel(HomePageViewModel homePageViewModel = null)
         {
             _locationsViewModel = new LocationsViewModel();
-            _homePageViewModel = new HomePageViewModel();
+            _homePageViewModel = homePageViewModel ?? new HomePageViewModel();
             _canAddLocation = false; 
         }
 

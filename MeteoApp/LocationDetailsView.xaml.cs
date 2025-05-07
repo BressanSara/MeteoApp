@@ -25,7 +25,7 @@ public partial class LocationDetailsView : ContentPage
     public LocationDetailsView()
     {
         InitializeComponent();
-        viewModel = new LocationDetailsViewModel();
+        viewModel = new LocationDetailsViewModel(Shell.Current.BindingContext as HomePageViewModel);
         BindingContext = viewModel;
         meteoService = new MeteoService(new HttpClient());
 
@@ -59,6 +59,19 @@ public partial class LocationDetailsView : ContentPage
                 // Handle any exceptions that occur during the request
                 Console.WriteLine($"An error occurred: {ex.Message}");
             }
+        }
+    }
+
+    private async void OnAddLocationClicked(object sender, EventArgs e)
+    {
+        try
+        {
+            await viewModel.AddLocationAsync();
+            await DisplayAlert("Success", "Location added successfully!", "OK");
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", "Failed to add location: " + ex.Message, "OK");
         }
     }
 }
