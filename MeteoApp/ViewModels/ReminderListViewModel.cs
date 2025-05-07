@@ -1,6 +1,8 @@
 ﻿using MeteoApp.Models;
 using MeteoApp.Services;
+using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -76,8 +78,15 @@ namespace MeteoApp.ViewModels
 
         private async Task LoadLocationsAsync()
         {
-            HomePageViewModel viewModel = new HomePageViewModel();
-            Locations = viewModel.Locations;
+            try
+            {
+                var locationsViewModel = new LocationsViewModel();
+                Locations = await locationsViewModel.LoadLocationsAsync();
+            }
+            catch (Exception)
+            {
+                // Silently handle the error
+            }
         }
 
         private async Task LoadRemindersAsync()
@@ -107,12 +116,12 @@ namespace MeteoApp.ViewModels
                 }
                 else
                 {
-                    Console.WriteLine($"Failed to load reminders. Status code: {response.StatusCode}");
+                    Debug.WriteLine($"Failed to load reminders. Status code: {response.StatusCode}");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred while loading reminders: {ex.Message}");
+                Debug.WriteLine($"An error occurred while loading reminders: {ex.Message}");
             }
         }
 
@@ -133,12 +142,12 @@ namespace MeteoApp.ViewModels
                 }
                 else
                 {
-                    Console.WriteLine($"Failed to add reminder. Status code: {response.StatusCode}");
+                    Debug.WriteLine($"Failed to add reminder. Status code: {response.StatusCode}");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred while adding the reminder: {ex.Message}");
+                Debug.WriteLine($"An error occurred while adding the reminder: {ex.Message}");
             }
         }
 
@@ -160,12 +169,12 @@ namespace MeteoApp.ViewModels
                 }
                 else
                 {
-                    Console.WriteLine($"Failed to delete reminder. {response.StatusCode} {response.Content} {response.ReasonPhrase}");
+                    Debug.WriteLine($"Failed to delete reminder. {response.StatusCode} {response.Content} {response.ReasonPhrase}");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred while deleting the reminder: {ex.Message}");
+                Debug.WriteLine($"An error occurred while deleting the reminder: {ex.Message}");
             }
         }
 
@@ -191,12 +200,12 @@ namespace MeteoApp.ViewModels
                 }
                 else
                 {
-                    Console.WriteLine($"Failed to update reminder. Status code: {response.StatusCode}");
+                    Debug.WriteLine($"Failed to update reminder. Status code: {response.StatusCode}");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred while updating the reminder: {ex.Message}");
+                Debug.WriteLine($"An error occurred while updating the reminder: {ex.Message}");
             }
         }
 
@@ -218,7 +227,7 @@ namespace MeteoApp.ViewModels
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error fetching location name: {ex.Message}");
+                Debug.WriteLine($"Error fetching location name: {ex.Message}");
                 return $"{latitude}, {longitude}";
             }
         }
