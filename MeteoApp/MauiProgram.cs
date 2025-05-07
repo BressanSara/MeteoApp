@@ -7,6 +7,7 @@ using Microsoft.Maui.Controls.Hosting;
 using Microsoft.Maui.Hosting;
 using Microsoft.Maui.LifecycleEvents;
 using Plugin.Firebase.CloudMessaging;
+using Microsoft.AspNetCore.Components.WebView.Maui;
 
 #if ANDROID
 using Plugin.Firebase.Core.Platforms.Android;
@@ -34,6 +35,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<MeteoService>();
         builder.Services.AddSingleton<HomePageViewModel>();
         builder.Services.AddSingleton<GeoCodingService>();
+        builder.Services.AddSingleton<AppInfoService>();
 
         builder.Services.AddMauiBlazorWebView();
 

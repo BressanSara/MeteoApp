@@ -61,7 +61,13 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <RazorComponent Include="AddLocation.razor" />
+    <MauiXaml Update="AboutPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+  </ItemGroup>
+
+  <ItemGroup>
+    <RazorComponent Include="AboutPage.razor" />
   </ItemGroup>
 
   <ItemGroup>

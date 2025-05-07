@@ -27,6 +27,7 @@ public partial class HomePageView : Shell
     {
         Routes.Add("locationdetails", typeof(LocationDetailsView));
         Routes.Add("ReminderList", typeof(ReminderListView));
+        Routes.Add("about", typeof(BlazorHostPage));
 
         foreach (var item in Routes)
             Routing.RegisterRoute(item.Key, item.Value);
@@ -60,11 +61,6 @@ public partial class HomePageView : Shell
         await Navigation.PushAsync(new MapPage());
     }
 
-    private async void OnAddLocation(object sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync("///add-location");
-    }
-
     private async Task ShowPrompt(string message)
     {
         await DialogService.Instance.ShowAlert("To be implemented", message, "OK");
@@ -92,5 +88,10 @@ public partial class HomePageView : Shell
             await vm.DeleteLocationAsync(item);
             (BindingContext as HomePageViewModel)?.Locations.Remove(item);
         }
+    }
+
+    private async void OnAboutClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("about");
     }
 }
