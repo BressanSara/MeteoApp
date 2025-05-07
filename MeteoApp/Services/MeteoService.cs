@@ -1,4 +1,8 @@
 ﻿using MeteoApp.Models;
+using System;
+using Newtonsoft.Json;
+using System.Net.Http;
+using Microsoft.Maui.ApplicationModel;
 using System.Diagnostics;
 using System.Net.Http.Json;
 
@@ -27,15 +31,42 @@ public class MeteoService
             }
             else
             {
-                // Handle non-success status codes
-                Console.WriteLine($"Failed to retrieve weather data. Status code: {response.StatusCode}");
+                Debug.WriteLine($"Failed to retrieve weather data. Status code: {response.StatusCode}");
                 return null;
             }
         }
         catch (Exception ex)
         {
-            // Handle any exceptions that occur during the request
-            Console.WriteLine($"An error occurred: {ex.Message}");
+            Debug.WriteLine($"An error occurred: {ex.Message}");
+            return null;
+        }
+    }
+
+    public async Task<ForecastData> GetForecastAsync(MeteoLocation location)
+    {
+        try
+        {
+            var apiKeyProvider = new ApiKeyProvider();
+            var API_KEY = await apiKeyProvider.GetOpenWeatherApiKeyAsync();
+
+            var response = await _httpClient.GetAsync($"https://api.openweathermap.org/data/2.5/forecast?lat={location.Latitude}&lon={location.Longitude}&appid={API_KEY}&units=metric");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                Debug.WriteLine($"Forecast API Response: {content}");
+                var forecastData = JsonConvert.DeserializeObject<ForecastData>(content);
+                return forecastData;
+            }
+            else
+            {
+                Debug.WriteLine($"Failed to retrieve forecast data. Status code: {response.StatusCode}");
+                return null;
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"An error occurred while fetching forecast: {ex.Message}");
             return null;
         }
     }

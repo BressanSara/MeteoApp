@@ -1,5 +1,7 @@
 using MeteoApp.Models;
 using MeteoApp.ViewModels;
+using MeteoApp.Converters;
+using Microsoft.Maui.Controls;
 
 namespace MeteoApp;
 
@@ -26,6 +28,10 @@ public partial class LocationDetailsView : ContentPage
         viewModel = new LocationDetailsViewModel();
         BindingContext = viewModel;
         meteoService = new MeteoService(new HttpClient());
+
+        // Register converters
+        Resources.Add("DateTimeConverter", new DateTimeConverter());
+        Resources.Add("WeatherIconConverter", new WeatherIconConverter());
     }
 
     private async void LoadWeatherData()
@@ -44,6 +50,9 @@ public partial class LocationDetailsView : ContentPage
                     // Handle the case where weatherInfo is null
                     Console.WriteLine("Failed to retrieve weather information.");
                 }
+
+                // Load forecast data
+                await viewModel.LoadForecastDataAsync(meteoService);
             }
             catch (Exception ex)
             {

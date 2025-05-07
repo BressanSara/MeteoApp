@@ -2,6 +2,9 @@
 using System.ComponentModel;
 using MeteoApp.Models;
 using System.Runtime.CompilerServices;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using System.Linq;
 
 namespace MeteoApp.ViewModels
 {
@@ -10,6 +13,7 @@ namespace MeteoApp.ViewModels
         private MeteoLocation _meteoLocation;
         private CurrentWeatherData _currentWeatherData;
         private string _iconString;
+        private ObservableCollection<ForecastItem> _forecastItems;
 
         public MeteoLocation MeteoLocation
         {
@@ -30,9 +34,18 @@ namespace MeteoApp.ViewModels
                 OnPropertyChanged();
                 if (_currentWeatherData?.Weather != null && _currentWeatherData.Weather.Count > 0)
                 {
-                    //IconString = _currentWeatherData.Weather[0].Icon;
                     IconString = _currentWeatherData.Weather[0].Main.ToLower() + ".png";
                 }
+            }
+        }
+
+        public ObservableCollection<ForecastItem> ForecastItems
+        {
+            get => _forecastItems;
+            set
+            {
+                _forecastItems = value;
+                OnPropertyChanged();
             }
         }
 
@@ -43,17 +56,32 @@ namespace MeteoApp.ViewModels
             {
                 _iconString = value;
                 OnPropertyChanged();
-                //OnPropertyChanged(nameof(IconUrl));
             }
         }
-
-        //public string IconUrl => $"https://openweathermap.org/img/wn/{IconString}@2x.png";
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public async Task LoadForecastDataAsync(MeteoService meteoService)
+        {
+            if (MeteoLocation != null)
+            {
+                var forecastData = await meteoService.GetForecastAsync(MeteoLocation);
+                if (forecastData?.List != null)
+                {
+                    // Group forecast items by date and take the first item of each day
+                    var dailyForecasts = forecastData.List
+                        .GroupBy(x => DateTimeOffset.FromUnixTimeSeconds(x.Dt).Date)
+                        .Select(g => g.First())
+                        .ToList();
+
+                    ForecastItems = new ObservableCollection<ForecastItem>(dailyForecasts);
+                }
+            }
         }
     }
 }
