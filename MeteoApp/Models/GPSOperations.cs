@@ -36,7 +36,7 @@ public class GPSOperations
                     meteoLocation.Country = "Unknown";
                 }
 
-                meteoLocation.Id = 0; // Prima posizione come identificativo
+                meteoLocation.Id = "CurrentPosition"; // Prima posizione come identificativo
             }
             
         }

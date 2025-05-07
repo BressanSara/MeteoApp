@@ -56,10 +56,4 @@
             </Grid>
         </ContentPage.Content>
     </ContentPage>
-
-    <ShellContent
-        Title="Add Location"
-        Route="add-location"
-        ContentTemplate="{DataTemplate razor:AddLocationBlazorPage}" />
-
 </Shell>

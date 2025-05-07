@@ -63,7 +63,7 @@ namespace MeteoApp.Services
             var response = await _databases.ListDocuments(_databaseId, collectionId);
             return response.Documents.Select(doc => new MeteoLocation
             {
-                Id = int.Parse(doc.Id),
+                Id = doc.Id,
                 Name = doc.Data["name"].ToString(),
                 Longitude = double.Parse(doc.Data["longitude"].ToString()),
                 Latitude = double.Parse(doc.Data["latitude"].ToString())

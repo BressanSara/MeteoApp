@@ -93,9 +93,6 @@
 	  <MauiAsset Include="Resources\Images\plus_solid.svg" />
 	</ItemGroup>
 	<ItemGroup>
-	  <MauiXaml Update="AddLocationBlazorPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="LocationDetailsView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
