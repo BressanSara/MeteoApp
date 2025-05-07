@@ -10,6 +10,8 @@ public partial class LocationDetailsView : ContentPage
 {
     private readonly LocationDetailsViewModel viewModel;
     private readonly MeteoService meteoService;
+    private readonly LocationsViewModel locationsViewModel;
+    private bool isNewLocation = true;
 
     public MeteoLocation MeteoLocation
     {
@@ -28,10 +30,27 @@ public partial class LocationDetailsView : ContentPage
         viewModel = new LocationDetailsViewModel();
         BindingContext = viewModel;
         meteoService = new MeteoService(new HttpClient());
+        locationsViewModel = new LocationsViewModel();
 
         // Register converters
         Resources.Add("DateTimeConverter", new DateTimeConverter());
         Resources.Add("WeatherIconConverter", new WeatherIconConverter());
+    }
+
+    private async void SaveLocationIfNew()
+    {
+        if (isNewLocation && MeteoLocation != null)
+        {
+            try
+            {
+                await locationsViewModel.AddLocationAsync(MeteoLocation);
+                isNewLocation = false;
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", "Failed to save location: " + ex.Message, "OK");
+            }
+        }
     }
 
     private async void LoadWeatherData()

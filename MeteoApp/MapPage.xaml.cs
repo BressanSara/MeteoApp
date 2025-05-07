@@ -43,12 +43,28 @@ public partial class MapPage : ContentPage
 	{
 		selectedLocation = e.Location;
 		
-		await DisplayAlert(
-			"Coordinates",
-			"Latitude = " + selectedLocation.Latitude
-			+ "\nLongitude = " + selectedLocation.Longitude, 
-			"OK");
+		var placemarks = await Geocoding.GetPlacemarksAsync(selectedLocation);
+		var placemark = placemarks?.FirstOrDefault();
 
+		var meteoLocation = new MeteoLocation
+		{
+			Latitude = selectedLocation.Latitude,
+			Longitude = selectedLocation.Longitude,
+			Name = placemark?.Locality ?? $"{selectedLocation.Latitude}, {selectedLocation.Longitude}",
+			Country = placemark?.CountryName ?? "Unknown",
+			Coord = new Coord
+			{
+				lat = selectedLocation.Latitude,
+				lon = selectedLocation.Longitude
+			}
+		};
+
+		var navigationParameter = new Dictionary<string, object>
+		{
+			{ "MeteoLocation", meteoLocation }
+		};
+
+		await Shell.Current.GoToAsync($"locationdetails", navigationParameter);
 	}
 	
 	private double RandomLatitude()

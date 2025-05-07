@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MeteoApp.LocationSearchPage"
+             Title="Search Location"
+             BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}">
+    <Grid RowDefinitions="Auto,*" Padding="10">
+        <Frame Grid.Row="0" 
+               BorderColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+               BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
+               CornerRadius="15"
+               HasShadow="True"
+               Margin="0,10">
+            <SearchBar x:Name="LocationSearchBar"
+                      Placeholder="Search for a location..."
+                      TextChanged="OnSearchTextChanged"
+                      BackgroundColor="Transparent"
+                      TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                      PlaceholderColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"/>
+        </Frame>
+        
+        <CollectionView x:Name="SearchResultsList"
+                       Grid.Row="1"
+                       SelectionMode="Single"
+                       SelectionChanged="OnLocationSelected"
+                       EmptyView="Start typing to search locations..."
+                       Margin="0,10">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Margin="0,5"
+                           BorderColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                           BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
+                           CornerRadius="15"
+                           HasShadow="True">
+                        <Grid Padding="15">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <Image Source="location_pin.png" 
+                                   HeightRequest="24" 
+                                   WidthRequest="24"
+                                   VerticalOptions="Center"/>
+                            
+                            <VerticalStackLayout Grid.Column="1" Margin="10,0,0,0">
+                                <Label Text="{Binding Name}"
+                                       FontSize="18"
+                                       FontAttributes="Bold"
+                                       TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
+                                <Label Text="{Binding Country}"
+                                       FontSize="14"
+                                       TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage> 

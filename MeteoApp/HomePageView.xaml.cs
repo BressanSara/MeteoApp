@@ -28,6 +28,7 @@ public partial class HomePageView : Shell
         Routes.Add("locationdetails", typeof(LocationDetailsView));
         Routes.Add("ReminderList", typeof(ReminderListView));
         Routes.Add("about", typeof(BlazorHostPage));
+        Routes.Add("locationsearch", typeof(LocationSearchPage));
 
         foreach (var item in Routes)
             Routing.RegisterRoute(item.Key, item.Value);
@@ -97,7 +98,7 @@ public partial class HomePageView : Shell
 
     private async void OnAddLocationClicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new MapPage());
+        await Shell.Current.GoToAsync("locationsearch");
     }
 
     private async void OnUpdateClicked(object sender, EventArgs e)

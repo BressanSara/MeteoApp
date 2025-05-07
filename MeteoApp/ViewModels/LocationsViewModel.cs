@@ -30,8 +30,8 @@ public class LocationsViewModel
             locations.Add(new MeteoLocation
             {
                 Id = doc.Id,
-                Name = doc.Data["CityName"].ToString(),
-                Country = doc.Data["CountryName"].ToString(),
+                Name = doc.Data["Name"].ToString(),
+                Country = doc.Data["Country"].ToString(),
                 Latitude = latitude,
                 Longitude = longitude,
                 Coord = new Coord{lat = latitude, lon = longitude}
@@ -44,8 +44,33 @@ public class LocationsViewModel
 
     public async Task AddLocationAsync(MeteoLocation location)
     {
+        await AppWriteService.InitializeAsync();
         
-        
+        var data = new Dictionary<string, object>
+        {
+            { "Name", location.Name },
+            { "Country", location.Country },
+            { "Latitude", location.Latitude },
+            { "Longitude", location.Longitude }
+        };
+
+        try
+        {
+            var response = await AppWriteService.Database.CreateDocument(
+                databaseId: AppWriteService.DatabaseId,
+                collectionId: AppWriteService.CollectionId,
+                documentId: "unique()",
+                data: data
+            );
+
+            location.Id = response.Id;
+        }
+        catch (Exception e)
+        {
+            await DialogService.Instance.ShowAlert("Add error", "The location could not be added. Please try again.");
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public async Task DeleteLocationAsync(MeteoLocation location)
