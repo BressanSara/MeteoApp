@@ -48,7 +48,7 @@
                                FontSize="14"
                                TextColor="#1976D2"
                                HorizontalOptions="End" />
-                        
+
                         <Label Text="Min Temperature:" 
                                Grid.Row="1" Grid.Column="0"
                                FontSize="14" 
@@ -70,7 +70,7 @@
                                FontSize="14"
                                TextColor="#1976D2"
                                HorizontalOptions="End" />
-                        
+
                         <Label Text="Feels Like:" 
                                Grid.Row="3" Grid.Column="0"
                                FontSize="14" 
@@ -81,7 +81,7 @@
                                FontSize="14"
                                TextColor="#1976D2"
                                HorizontalOptions="End" />
-                        
+
                         <Label Text="Humidity:" 
                                Grid.Row="4" Grid.Column="0"
                                FontSize="14" 
@@ -115,7 +115,7 @@
                                FontSize="14"
                                TextColor="#F57C00"
                                HorizontalOptions="End" />
-                        
+
                         <Label Text="Wind Direction:" 
                                Grid.Row="1" Grid.Column="0"
                                FontSize="14" 
@@ -138,7 +138,7 @@
                            FontAttributes="Bold"
                            TextColor="#6A1B9A"
                            HorizontalOptions="Center" />
-                    
+
                     <CarouselView ItemsSource="{Binding ForecastItems}"
                                 HeightRequest="200"
                                 Loop="False">
@@ -155,17 +155,17 @@
                                                FontAttributes="Bold"
                                                TextColor="#6A1B9A"
                                                HorizontalOptions="Center" />
-                                        
+
                                         <Image Source="{Binding Weather[0].Main, Converter={StaticResource WeatherIconConverter}}"
                                                HeightRequest="50"
                                                WidthRequest="50"
                                                HorizontalOptions="Center" />
-                                        
+
                                         <Label Text="{Binding Weather[0].Description}"
                                                FontSize="14"
                                                TextColor="#6A1B9A"
                                                HorizontalOptions="Center" />
-                                        
+
                                         <Grid ColumnDefinitions="*,*" Padding="5">
                                             <Label Text="Temp:"
                                                    Grid.Column="0"
@@ -177,7 +177,7 @@
                                                    TextColor="#6A1B9A"
                                                    HorizontalOptions="End" />
                                         </Grid>
-                                        
+
                                         <Grid ColumnDefinitions="*,*" Padding="5">
                                             <Label Text="Humidity:"
                                                    Grid.Column="0"
@@ -198,18 +198,4 @@
             </Border>
         </StackLayout>
     </ScrollView>
-    
-    <!-- Floating Action Button -->
-    <ImageButton x:Name="AddLocationButton"
-                 Source="add.png"
-                 Clicked="OnAddLocationClicked"
-                 IsVisible="{Binding CanAddLocation}"
-                 HeightRequest="56"
-                 WidthRequest="56"
-                 CornerRadius="28"
-                 BackgroundColor="#4CAF50"
-                 Padding="12"
-                 HorizontalOptions="End"
-                 VerticalOptions="Start"
-                 Margin="0,20,20,0"/>
 </ContentPage>
