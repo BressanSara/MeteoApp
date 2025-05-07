@@ -6,6 +6,8 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MeteoApp.Services;
+using System;
+using System.Linq;
 
 namespace MeteoApp;
 
@@ -87,7 +89,19 @@ public partial class HomePageView : Shell
         {
             var vm = new LocationsViewModel();
             await vm.DeleteLocationAsync(item);
-            (BindingContext as HomePageViewModel)?.Locations.Remove(item);
+            
+            if (BindingContext is HomePageViewModel viewModel)
+            {
+                viewModel.Locations.Remove(item);
+                
+                // Check if the deleted location was the current location
+                if (viewModel.CurrentLocation != null && 
+                    Math.Abs(viewModel.CurrentLocation.Latitude - item.Latitude) < 0.0001 && 
+                    Math.Abs(viewModel.CurrentLocation.Longitude - item.Longitude) < 0.0001)
+                {
+                    viewModel.CanAddCurrentLocation = true;
+                }
+            }
         }
     }
 
