@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MeteoApp.Services;
 
 namespace MeteoApp;
 
@@ -16,6 +17,8 @@ public partial class HomePageView : Shell
     {
         InitializeComponent();
         RegisterRoutes();
+        
+        DialogService.Instance.Initialize(this);
         
         BindingContext = new HomePageViewModel();
     }
@@ -59,13 +62,13 @@ public partial class HomePageView : Shell
 
     private async Task ShowPrompt(string message)
     {
-        await DisplayAlert("To be implemented", message, "OK");
+        await DialogService.Instance.ShowAlert("To be implemented", message, "OK");
     }
 
     private async void OpenNotificationSetting(object sender, EventArgs e)
     {
 #if IOS
-        await DisplayAlert("Not implemented", "Functionality not enabled in IOS", "OK");
+        await DialogService.Instance.ShowAlert("Not implemented", "Functionality not enabled in IOS", "OK");
 #elif ANDROID
         await Shell.Current.GoToAsync($"ReminderList");
 #endif
@@ -78,10 +81,10 @@ public partial class HomePageView : Shell
         if (item == null)
             return;
 
-        bool confirm = await DisplayAlert("Delete Location", $"Are you sure you want to delete {item.Name}?", "Yes", "No");
-
-        if (confirm)
+        if (await DialogService.Instance.ShowConfirmation("Delete", "Are you sure you want to delete this location?"))
         {
+            var vm = new LocationsViewModel();
+            await vm.DeleteLocationAsync(item);
             (BindingContext as HomePageViewModel)?.Locations.Remove(item);
         }
     }

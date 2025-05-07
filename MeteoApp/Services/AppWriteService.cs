@@ -36,6 +36,7 @@ namespace MeteoApp.Services
             }
             catch (Exception ex)
             {
+                await DialogService.Instance.ShowAlert("Appwrite info", "Initialization failed");
                 Console.WriteLine($"Error initializing AppWrite client: {ex.Message}");
                 throw;
             }

@@ -50,13 +50,23 @@ public class LocationsViewModel
 
     public async Task DeleteLocationAsync(MeteoLocation location)
     {
+        await AppWriteService.InitializeAsync();
         if (string.IsNullOrEmpty(location.Id))
             throw new Exception("DocumentId non disponibile per la località selezionata.");
 
-        await AppWriteService.Database.DeleteDocument(
-            databaseId: AppWriteService.DatabaseId,
-            collectionId: AppWriteService.CollectionId,
-            documentId: location.Id
-        );
+        try
+        {
+            await AppWriteService.Database.DeleteDocument(
+                databaseId: AppWriteService.DatabaseId,
+                collectionId: AppWriteService.CollectionId,
+                documentId: location.Id
+            );
+        }
+        catch (Exception e)
+        {
+            await DialogService.Instance.ShowAlert("Delete error", "The location could not be deleted, is either already deleted or you don't have permission to delete it.");
+            Console.WriteLine(e);
+        }
+        
     }
 }
