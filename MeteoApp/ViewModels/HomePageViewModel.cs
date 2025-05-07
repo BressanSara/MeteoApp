@@ -114,8 +114,7 @@ namespace MeteoApp.ViewModels
             }
         }
 
-
-        private async Task ReloadWeatherDataAsync()
+        public async Task ReloadWeatherDataAsync()
         {
             await AppWriteService.InitializeAsync();
             try

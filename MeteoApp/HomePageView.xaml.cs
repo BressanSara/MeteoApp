@@ -94,4 +94,17 @@ public partial class HomePageView : Shell
     {
         await Shell.Current.GoToAsync("about");
     }
+
+    private async void OnAddLocationClicked(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new MapPage());
+    }
+
+    private async void OnUpdateClicked(object sender, EventArgs e)
+    {
+        if (BindingContext is HomePageViewModel viewModel)
+        {
+            await viewModel.ReloadWeatherDataAsync();
+        }
+    }
 }
