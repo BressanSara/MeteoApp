@@ -43,9 +43,7 @@ public class LocationsViewModel
     }
 
     public async Task AddLocationAsync(MeteoLocation location)
-    {
-        await AppWriteService.InitializeAsync();
-        
+    {   
         var data = new Dictionary<string, object>
         {
             { "Name", location.Name },

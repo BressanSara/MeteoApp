@@ -6,6 +6,7 @@
                  android:label="MateoApp" 
                  android:enableOnBackInvokedCallback="true"
                  android:roundIcon="@mipmap/appicon_round"
+                 android:theme="@style/MainTheme"
     >
 
         <!--Mappe-->
