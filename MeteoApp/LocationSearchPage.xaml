@@ -19,14 +19,7 @@
                           BackgroundColor="Transparent"
                           TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
                           PlaceholderColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"/>
-                <Button Grid.Column="1"
-                        Text="✕"
-                        Clicked="OnClearSearchClicked"
-                        BackgroundColor="Transparent"
-                        TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}"
-                        FontSize="16"
-                        Padding="10,0"
-                        IsVisible="{Binding Source={x:Reference LocationSearchBar}, Path=Text, Converter={StaticResource StringToBoolConverter}}"/>
+                
             </Grid>
         </Frame>
         
@@ -57,6 +50,9 @@
                                BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
                                CornerRadius="15"
                                HasShadow="True">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnItemTapped" CommandParameter="{Binding .}"/>
+                            </Frame.GestureRecognizers>
                             <Grid Padding="15">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>

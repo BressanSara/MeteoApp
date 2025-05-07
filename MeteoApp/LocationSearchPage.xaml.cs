@@ -68,6 +68,7 @@ public partial class LocationSearchPage : ContentPage
 
         try
         {
+            System.Diagnostics.Debug.WriteLine($"Starting search for: {searchText}");
             // Normalizza il testo di ricerca
             searchText = searchText.Trim().ToLowerInvariant();
             
@@ -76,6 +77,7 @@ public partial class LocationSearchPage : ContentPage
             
             if (locations == null || !locations.Any())
             {
+                System.Diagnostics.Debug.WriteLine("No locations found");
                 await MainThread.InvokeOnMainThreadAsync(() =>
                 {
                     SearchResultsList.ItemsSource = null;
@@ -85,6 +87,7 @@ public partial class LocationSearchPage : ContentPage
                 return;
             }
 
+            System.Diagnostics.Debug.WriteLine($"Found {locations.Count()} locations");
             searchResults = new List<SearchResult>();
 
             foreach (var location in locations.Take(10))
@@ -104,6 +107,7 @@ public partial class LocationSearchPage : ContentPage
                             Country = country,
                             Location = location
                         });
+                        System.Diagnostics.Debug.WriteLine($"Added result: {formattedName}, {country}");
                     }
                 }
                 catch (Exception ex)
@@ -124,6 +128,7 @@ public partial class LocationSearchPage : ContentPage
                 SearchResultsList.ItemsSource = searchResults;
                 LoadingIndicator.IsVisible = false;
                 LoadingIndicator.IsRunning = false;
+                System.Diagnostics.Debug.WriteLine($"Set ItemsSource with {searchResults.Count} results");
             });
         }
         catch (Exception ex)
@@ -136,12 +141,6 @@ public partial class LocationSearchPage : ContentPage
                 LoadingIndicator.IsRunning = false;
             });
         }
-    }
-
-    private void OnClearSearchClicked(object sender, EventArgs e)
-    {
-        LocationSearchBar.Text = string.Empty;
-        SearchResultsList.ItemsSource = null;
     }
 
     private string FormatLocationName(Placemark placemark)
@@ -167,10 +166,13 @@ public partial class LocationSearchPage : ContentPage
         return string.Join(", ", parts);
     }
 
-    private async void OnLocationSelected(object sender, SelectionChangedEventArgs e)
+
+    private async void OnItemTapped(object sender, TappedEventArgs e)
     {
-        if (e.CurrentSelection.FirstOrDefault() is SearchResult selectedResult)
+        System.Diagnostics.Debug.WriteLine("OnItemTapped called");
+        if (e.Parameter is SearchResult selectedResult)
         {
+            System.Diagnostics.Debug.WriteLine($"Tapped location: {selectedResult.Name}, {selectedResult.Country}");
             try
             {
                 var meteoLocation = new MeteoLocation
@@ -186,24 +188,25 @@ public partial class LocationSearchPage : ContentPage
                     }
                 };
 
+                System.Diagnostics.Debug.WriteLine($"Created MeteoLocation: {meteoLocation}");
                 var navigationParameter = new Dictionary<string, object>
                 {
                     { "MeteoLocation", meteoLocation }
                 };
 
+                System.Diagnostics.Debug.WriteLine("Navigating to locationdetails");
                 await Shell.Current.GoToAsync($"locationdetails", navigationParameter);
-
-                // Deseleziona l'elemento nella lista
-                if (sender is CollectionView collectionView)
-                {
-                    collectionView.SelectedItem = null;
-                }
+                System.Diagnostics.Debug.WriteLine("Navigation completed");
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Navigation error: {ex.Message}");
                 await DisplayAlert("Error", "Failed to navigate to location details: " + ex.Message, "OK");
             }
+        }
+        else
+        {
+            System.Diagnostics.Debug.WriteLine("No item tapped or invalid selection");
         }
     }
 
