@@ -47,6 +47,11 @@ public partial class HomePageView : Shell
             };
 
             await Shell.Current.GoToAsync($"locationdetails", navigationParameter);
+            
+            if (sender is CollectionView collectionView)
+            {
+                collectionView.SelectedItem = null;
+            }
         }
     }
 
